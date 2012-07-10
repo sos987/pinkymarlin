@@ -32,60 +32,7 @@
           <h1 class="b-header">
             <a href="#5" class="b-logo"><span class="b-logo_alt">Розовый Марлин</span></a> Интернет-магазин путешествий
           </h1>
-          
-          <div class="b-calendar">
-            <span class="b-calendar_week_day_caption">Примерная дата вылета</span>
-            <span class="b-calendar_week_day_flight">
-              <span class="b-calendar_week_day_flight_from">Москва</span>
-              <br />
-              <span class="b-calendar_week_day_flight_to">Доминикана</span>
-            </span>
-            <ul class="b-calendar_months"></ul>
-            <ul class="b-calendar_week b-calendar_week_header">
-              <li class="b-calendar_week_day">пн</li>
-              <li class="b-calendar_week_day">вт</li>
-              <li class="b-calendar_week_day">ср</li>
-              <li class="b-calendar_week_day">чт</li>
-              <li class="b-calendar_week_day">пт</li>
-              <li class="b-calendar_week_day">сб</li>
-              <li class="b-calendar_week_day">вс</li>
-            </ul>
-            <div class="b-i-calendar">
-              <div class="b-i-i-calendar"></div>
-            </div>
-          </div>
-          
-          <h2>Лучшие предложения</h2>
-          <div class="b-special">
-            <a href="#special1" class="b-special_item">
-              <img class="b-special_item_image" src=<%=asset_path('special.jpg')%> alt="Мексика — Канкун, Отель BARCELO TUCANCUN 5 звезд" />
-              <span class="b-special_item_name">Мексика — Канкун</span>
-              <span class="b-special_item_stars"><i class="b-special_item_stars_5"></i></span>
-              <span class="b-special_item_hotel">BARCELO TUCANCUN</span>
-              <span class="b-special_item_price"><span class="b-i-special_item_price g-gradient"><span>от</span> 34 500 Р</span></span>
-            </a>
-            <a href="#special2" class="b-special_item">
-              <img class="b-special_item_image" src=<%=asset_path('special.jpg')%> alt="Мексика — Канкун, Отель BARCELO TUCANCUN 5 звезд" />
-              <span class="b-special_item_name">Мексика — Канкун</span>
-              <span class="b-special_item_stars"><i class="b-special_item_stars_4"></i></span>
-              <span class="b-special_item_hotel">BARCELO TUCANCUN</span>
-              <span class="b-special_item_price"><span class="b-i-special_item_price g-gradient"><span>от</span> 34 500 Р</span></span>
-            </a>
-            <a href="#special3" class="b-special_item">
-              <img class="b-special_item_image" src=<%=asset_path('special.jpg')%> alt="Мексика — Канкун, Отель BARCELO TUCANCUN 5 звезд" />
-              <span class="b-special_item_name">Мексика — Канкун</span>
-              <span class="b-special_item_stars"><i class="b-special_item_stars_3"></i></span>
-              <span class="b-special_item_hotel">BARCELO TUCANCUN</span>
-              <span class="b-special_item_price"><span class="b-i-special_item_price g-gradient"><span>от</span> 34 500 Р</span></span>
-            </a>
-            <a href="#special4" class="b-special_item b-special_item_last">
-              <img class="b-special_item_image" src=<%=asset_path('special.jpg')%> alt="Мексика — Канкун, Отель BARCELO TUCANCUN 5 звезд" />
-              <span class="b-special_item_name">Мексика — Канкун</span>
-              <span class="b-special_item_stars"><i class="b-special_item_stars_2"></i></span>
-              <span class="b-special_item_hotel">BARCELO TUCANCUN</span>
-              <span class="b-special_item_price"><span class="b-i-special_item_price g-gradient"><span>от</span> 34 500 Р</span></span>
-            </a>
-          </div>
+          <%=yield%>
         </div>
       </div>
       
@@ -104,27 +51,7 @@
         </div>
       </div>
       
-      <div class="l-content b-about_content">
-        <div class="b-about_fotorama">
-          <img src=<%=asset_path('bg_about.jpg')%> alt="" />
-          <img src=<%=asset_path('bg_1600.jpg')%> alt="" />
-          <img src=<%=asset_path('bg_1920.jpg')%> alt="" />
-        </div>
-        
-        <div class="l-i-content">
-          <div class="b-about">
-            <h2>О компании</h2>
-            <p>Предлагаем для Вас туры в&nbsp;любые точки планеты, пляжный отдых, экстремальные путешествия, рыбалка и многое-многое другое. Розовый Марлин сделает ваше путешествие незабываемым. Наша работа&nbsp;&mdash; создавать эмоции! А это мы умеем и любим больше всего.</p>
-            <p><a class="b-about_more" href="#">Узнать больше</a></p>
-            
-            <ul class="b-about_gallery">
-              <li class="b-about_gallery_item b-about_gallery_item_selected"><a href="#" rel="0"><img src=<%=asset_path('bg_about_preview.jpg')%> alt="" /></a><i></i></li>
-              <li class="b-about_gallery_item"><a href="#" rel="1"><img src=<%=asset_path('bg_about_preview.jpg')%> alt="" /></a><i></i></li>
-              <li class="b-about_gallery_item"><a href="#" rel="2"><img src=<%=asset_path('bg_about_preview.jpg')%> alt="" /></a><i></i></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <%=yield :bottom_content%>
       
       <div class="l-ghost"></div>
     </div>
@@ -147,71 +74,6 @@
         </div>
       </div>
     </div>
-  </div>
-  
-  <div class="b-popup" style="display: none;">
-    <div class="b-popup_content">
-      <div class="b-popup_content_date">14 июля 2012</div>
-      <div class="b-popup_content_date_caption">с расчетом ± 3 дня</div>
-      <form class="b-popup_content_form" method="post">
-        <div class="b-popup_content_form_fieldset">
-          <span class="b-formfield b-popup_content_form_from">
-            <span class="b-formfield_select">
-              <select name="from">
-                <option>Москва</option>
-                <option>Самара</option>
-                <option>Санкт-Петербург</option>
-                <option>Урюпинск под Усть-Подольском</option>
-              </select>
-              <span class="b-formfield_select_content"></span>
-              <span class="b-formfield_select_icon"><i></i></span>
-            </span>
-          </span>
-          <i class="b-popup_content_form_direction"></i>
-          <span class="b-formfield b-popup_content_form_to">
-            <span class="b-formfield_select">
-              <select name="to">
-                <option>Доминикана</option>
-                <option>Мексика</option>
-                <option>Комбожда</option>
-                <option>о. Средиземный Константинопольский</option>
-                <option>Доминикана</option>
-                <option>Мексика</option>
-                <option>Комбожда</option>
-                <option>о. Средиземный Константинопольский</option>
-                <option>Доминикана</option>
-                <option>Мексика</option>
-                <option>Комбожда</option>
-                <option>о. Средиземный Константинопольский</option>
-                <option>Доминикана</option>
-                <option>Мексика</option>
-                <option>Комбожда</option>
-                <option>о. Средиземный Константинопольский</option>
-                <option>Доминикана</option>
-                <option>Мексика</option>
-                <option>Комбожда</option>
-                <option>о. Средиземный Константинопольский</option>
-                <option>Доминикана</option>
-                <option>Мексика</option>
-                <option>Комбожда</option>
-                <option>о. Средиземный Константинопольский</option>
-              </select>
-              <span class="b-formfield_select_content"></span>
-              <span class="b-formfield_select_icon"><i></i></span>
-            </span>
-          </span>
-        </div>
-        <div class="b-popup_content_form_fieldset">
-          <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="days" /></span> дней</label>
-          <label class="b-popup_content_form_adult_label"><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" /></span> взрослых</label>
-          <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="kid" /></span> детей</label>
-        </div>
-        <div class="b-popup_content_form_fieldset b-popup_content_form_fieldset_center">
-          <a onclick="$(this).closest('form').submit();return false;" href="#" class="b-popup_content_form_submit"><span>Найти тур</span><i></i><u></u></a>
-        </div>
-      </form>
-    </div>
-    <a href="#" class="b-popup_close"><u></u><i></i></a>
   </div>
 </body>
 </html>
