@@ -58,11 +58,11 @@
   <div class="b-popup_content">
     <div class="b-popup_content_date">14 июля 2012</div>
     <div class="b-popup_content_date_caption">с расчетом ± 3 дня</div>
-    <form class="b-popup_content_form" method="post" action="<%=search_path%>">
+    <form class="b-popup_content_form" method="get" action="<%=search_path%>">
       <div class="b-popup_content_form_fieldset">
         <span class="b-formfield b-popup_content_form_from">
           <span class="b-formfield_select">
-            <select name="from">
+            <select name="cityId">
               <%City.all.each do |c|%>
                 <option value="<%=c.id%>"><%=c.name%></option>
               <%end%>
@@ -74,7 +74,7 @@
         <i class="b-popup_content_form_direction"></i>
         <span class="b-formfield b-popup_content_form_to">
           <span class="b-formfield_select">
-            <select name="to">
+            <select name="countryId">
               <%Country.all.each do |c|%>
                 <option value="<%=c.id%>"><%=c.name%></option>
               <%end%>
@@ -85,13 +85,20 @@
         </span>
       </div>
       <div class="b-popup_content_form_fieldset">
-        <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="days" /></span> дней</label>
+        <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightxMin" id="nightsMin" /></span> дней</label>
+        <input type="hidden" name="nightsMax" value="10" id="nightsMax">
         <label class="b-popup_content_form_adult_label"><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" /></span> взрослых</label>
-        <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="kid" /></span> детей</label>
+        <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="child" /></span> детей</label>
       </div>
       <div class="b-popup_content_form_fieldset b-popup_content_form_fieldset_center">
         <a onclick="$(this).closest('form').submit();return false;" href="#" class="b-popup_content_form_submit"><span>Найти тур</span><i></i><u></u></a>
       </div>
+      <input type="hidden" name="before" id="date-before">
+      <input type="hidden" name="textDate" id="date-text">
+      <input type="hidden" name="after" id="date-after">
+      <%@default_params.each do |key,val|%>
+        <input type="hidden" name="<%=key%>" value="<%=val%>">
+      <%end%>
     </form>
   </div>
   <a href="#" class="b-popup_close"><u></u><i></i></a>

@@ -38,7 +38,7 @@
 		
 		<div class="b-search_form_direction">
 			<div class="b-search_form_direction_item b-search_form_direction_item_flight">
-				Москва — Турция, 14 апреля
+				<%=City.find(params[:cityId]).name%> — <%=Country.find(params[:countryId]).name%>, <%=params[:textDate]%>
 				<i class="b-search_form_direction_item_icon"></i>
 			</div>
 			<div class="b-search_form_direction_item b-search_form_direction_item_days">
@@ -328,3 +328,31 @@
 		<a href="#" class="b-search_result_more">Показать еще 10 туров</a>
 	</div>
 </div>
+
+<script type="text/javascript">
+var accommodations = <%=@accommodations.to_json.html_safe%>;
+$(function(){
+	var query = window.location.search.substring(1);
+	var vars = query.split("&");
+	var params = {};
+	for (var i = 0; i < vars.length; i++) {
+		var p =vars[i].split("=");
+		params[p[0]] = p[1];
+	}
+	$.each(accommodations,function(i,e){
+		if (e.child == params.child && e.adult == params.adult) {
+			console.log(e);
+			params.accommodationId = e.accommodationId;
+		}
+	});
+	$.ajax({
+		dataType: 'jsonp',
+		url: 'http://search.teztour.com/toursearch/getResult',
+		type: 'get',
+		data: params,
+		success: function(data){	
+			console.log(data);
+		}
+	});
+});
+</script>

@@ -330,7 +330,11 @@ function setMonthActiveDays(month) {
 		$(this).addClass('b-calendar_week_day_selected').append($caption);
 		
 		$('.b-popup').fadeIn(333);
-		$('.b-popup_content_date').text(new Date(parseInt($(this).attr('timestamp'))).format('d mmmmm yyyy'));
+		var date = parseInt($(this).attr('timestamp'));
+		$('.b-popup_content_date').text(new Date(date).format('d mmmmm yyyy'));
+		$("#date-text").val(new Date(date).format('d mmmmm'));
+		$("#date-before").val(new Date(date+3*24*3600*1000).format('dd.mm.yyyy'));
+		$("#date-after").val(new Date(date-3*24*3600*1000).format('dd.mm.yyyy'));
 	});
 }
 
@@ -440,6 +444,10 @@ $(document).ready(function () {
 		  $(thumb).addClass('b-about_gallery_item_selected');
 	  }
 	});
+
+	$("#nightsMin").keyup(function(){
+		$("#nightsMax").val($(this).val());
+	})
 	$('.b-about_gallery').find('a').click(function () {
 		var fotorama = $('.b-about_fotorama').fotorama();
 		fotorama.trigger('showimg', [parseInt($(this).attr('rel')), 333]);
@@ -667,4 +675,13 @@ $(document).ready(function () {
 		$('.ui-slider-handle').eq(0).addClass('b-search_form_filters_price_range_item b-search_form_filters_price_range_item_start').html('<span class="b-search_form_filters_price_range_item_value">' + $('.b-search_form_filters_price_start input').val() + '</span><i></i>');
 		$('.ui-slider-handle').eq(1).addClass('b-search_form_filters_price_range_item b-search_form_filters_price_range_item_end').html('<span class="b-search_form_filters_price_range_item_value">' + $('.b-search_form_filters_price_end input').val() + '</span><i></i>');
 	}
-})
+});
+
+
+
+
+
+
+
+
+
