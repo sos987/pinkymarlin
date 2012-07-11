@@ -85,7 +85,7 @@
         </span>
       </div>
       <div class="b-popup_content_form_fieldset">
-        <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightxMin" id="nightsMin" /></span> дней</label>
+        <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightsMin" id="nightsMin" /></span> дней</label>
         <input type="hidden" name="nightsMax" value="10" id="nightsMax">
         <label class="b-popup_content_form_adult_label"><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" /></span> взрослых</label>
         <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="child" /></span> детей</label>
@@ -94,8 +94,8 @@
         <a onclick="$(this).closest('form').submit();return false;" href="#" class="b-popup_content_form_submit"><span>Найти тур</span><i></i><u></u></a>
       </div>
       <input type="hidden" name="before" id="date-before">
-      <input type="hidden" name="textDate" id="date-text">
       <input type="hidden" name="after" id="date-after">
+      <input type="hidden" name="textDate" id="date-text">
       <%@default_params.each do |key,val|%>
         <input type="hidden" name="<%=key%>" value="<%=val%>">
       <%end%>

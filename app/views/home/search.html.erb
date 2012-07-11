@@ -1,9 +1,9 @@
 <div class="b-search">
 	<div class="b-search_form">
-		<form class="b-search_form_set">
+		<form class="b-search_form_set" action="">
 			<span class="b-formfield b-popup_content_form_from">
 				<span class="b-formfield_select">
-					<select name="from">
+					<select name="cityId">
 					  <%City.all.each do |c|%>
 		                <option value="<%=c.id%>"><%=c.name%></option>
 		              <%end%>
@@ -15,7 +15,7 @@
 			<i class="b-popup_content_form_direction"></i>
 			<span class="b-formfield b-popup_content_form_to">
 				<span class="b-formfield_select">
-					<select name="to">
+					<select name="countryId">
 					  <%Country.all.each do |c|%>
 		                <option value="<%=c.id%>"><%=c.name%></option>
 		              <%end%>
@@ -25,10 +25,13 @@
 				</span>
 			</span>
 			
-			<label>вылет <span class="b-formfield b-popup_content_form_date_field"><input class="b-popup_content_form_date js-field_count" type="text" value="14 апреля 2012" name="date" /></span></label>
-			<label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="days" /></span> дней</label>
-			<label><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" /></span> взрослых</label>
-			<label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="kid" /></span> детей</label>
+			<label>вылет <span class="b-formfield b-popup_content_form_date_field"><input class="b-popup_content_form_date js-field_count" type="text" value="<%=params[:textDate]%>" name="textDate" /></span></label>
+			<input type="hidden" name="before" id="date-before" value="<%=params[:before]%>">
+		    <input type="hidden" name="after" id="date-after"  value="<%=params[:after]%>">
+			<label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightsMin" value="<%=params[:nightsMin]%>" id="nightsMin"/></span> дней</label>
+			<input type="hidden" name="nightsMax" value="<%=params[:nightsMax]%>" id="nightsMax">
+			<label><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="<%=params[:adult]%>" name="adult" /></span> взрослых</label>
+			<label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="<%=params[:child]%>" name="child" /></span> детей</label>
 			
 			<div class="b-search_form_set_buttons">
 				<a onclick="$(this).closest('form').submit();return false;" href="#" class="b-search_form_set_submit g-gradient"><span>Найти туры</span><i></i><u></u></a>
@@ -38,15 +41,15 @@
 		
 		<div class="b-search_form_direction">
 			<div class="b-search_form_direction_item b-search_form_direction_item_flight">
-				<%=City.find(params[:cityId]).name%> — <%=Country.find(params[:countryId]).name%>, <%=params[:textDate]%>
+				<%=@city%> — <%=@country%>, <%=params[:textDate]%>
 				<i class="b-search_form_direction_item_icon"></i>
 			</div>
 			<div class="b-search_form_direction_item b-search_form_direction_item_days">
-				10 дней
+				<%=params[:nightsMin].to_i.word %w(день дня дней)%>
 				<i class="b-search_form_direction_item_icon"></i>
 			</div>
 			<div class="b-search_form_direction_item b-search_form_direction_item_persons">
-				2 туриста
+				<%=@count.word %w(турист туриста туристов)%>
 				<i class="b-search_form_direction_item_icon"></i>
 			</div>
 			<div class="b-search_form_direction_edit">
@@ -64,21 +67,7 @@
 					
 					<div class="b-search_form_filters_price_range"></div>
 				</dd>
-				<dd>
-					<span class="b-formfield b-search_form_filters_price_currency">
-						<span class="b-formfield_select">
-							<select name="from">
-								<option>руб</option>
-								<option>&dollar;</option>
-								<option>&euro;</option>
-								<option>&yen;</option>
-								<option>&pound;</option>
-							</select>
-							<span class="b-formfield_select_content"></span>
-							<span class="b-formfield_select_icon"><i></i></span>
-						</span>
-					</span>
-				</dd>
+				
 			</dl>
 			<dl class="b-search_form_filters_item">
 				<dt>Звездность</dt>
@@ -117,84 +106,7 @@
 			<div class="b-search_result_col b-search_result_col5">Стоимость</div>
 		</div>
 		
-		<div class="b-search_result_list">
-			<div class="b-search_result_item">
-				<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">
-					<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars3"></i></span>
-					<span class="b-search_result_item_hotel_name">Kleopatra Alis</span>
-				</div>
-				<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">Инжекум - Аланья</div>
-				<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">14 апреля 2012</div>
-				<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">Все включено</div>
-				<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от 34 500 Р</div>
-				<div class="b-search_result_item_border"></div>
-			</div>
-			<div class="b-search_result_item">
-				<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">
-					<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars3"></i></span>
-					<span class="b-search_result_item_hotel_name">Kleopatra Alis</span>
-				</div>
-				<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">Инжекум - Аланья</div>
-				<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">14 апреля 2012</div>
-				<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">Все включено</div>
-				<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от 34 500 Р</div>
-				<div class="b-search_result_item_border"></div>
-			</div>
-			<div class="b-search_result_item">
-				<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">
-					<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars3"></i></span>
-					<span class="b-search_result_item_hotel_name">Kleopatra Alis</span>
-				</div>
-				<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">Инжекум - Аланья</div>
-				<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">14 апреля 2012</div>
-				<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">Все включено</div>
-				<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от 34 500 Р</div>
-				<div class="b-search_result_item_border"></div>
-			</div>
-			<div class="b-search_result_item">
-				<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">
-					<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars3"></i></span>
-					<span class="b-search_result_item_hotel_name">Kleopatra Alis</span>
-				</div>
-				<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">Инжекум - Аланья</div>
-				<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">14 апреля 2012</div>
-				<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">Все включено</div>
-				<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от 34 500 Р</div>
-				<div class="b-search_result_item_border"></div>
-			</div>
-			<div class="b-search_result_item">
-				<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">
-					<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars3"></i></span>
-					<span class="b-search_result_item_hotel_name">Kleopatra Alis</span>
-				</div>
-				<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">Инжекум - Аланья</div>
-				<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">14 апреля 2012</div>
-				<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">Все включено</div>
-				<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от 34 500 Р</div>
-				<div class="b-search_result_item_border"></div>
-			</div>
-			<div class="b-search_result_item">
-				<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">
-					<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars3"></i></span>
-					<span class="b-search_result_item_hotel_name">Kleopatra Alis</span>
-				</div>
-				<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">Инжекум - Аланья</div>
-				<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">14 апреля 2012</div>
-				<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">Все включено</div>
-				<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от 34 500 Р</div>
-				<div class="b-search_result_item_border"></div>
-			</div>
-			<div class="b-search_result_item">
-				<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">
-					<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars3"></i></span>
-					<span class="b-search_result_item_hotel_name">Kleopatra Alis</span>
-				</div>
-				<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">Инжекум - Аланья</div>
-				<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">14 апреля 2012</div>
-				<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">Все включено</div>
-				<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от 34 500 Р</div>
-				<div class="b-search_result_item_border"></div>
-			</div>
+		<div class="b-search_result_list" id="results">
 		</div>
 		
 		<div class="b-search_result_item_form">
@@ -325,13 +237,37 @@
 			<div class="b-search_result_item_form_bottom"><a></a><b></b><i></i><u></u><s></s></div>
 		</div>
 		
-		<a href="#" class="b-search_result_more">Показать еще 10 туров</a>
+		<a href="#" class="b-search_result_more" id="more">Показать еще 10 туров</a>
 	</div>
 </div>
 
 <script type="text/javascript">
 var accommodations = <%=@accommodations.to_json.html_safe%>;
+//Temlate for tour
+var tourTemplate = function(tour) {
+	//one tour is array. See http://xml.teztour.com/XML_JSON_TS.html
+	var hotel = /(.*?)\s(\d[^\s]*)\s\*$/.exec(tour[6]);
+	if (hotel == null) {
+		hotel = [tour[6],'']
+	}
+	console.log(tour);
+	var date = tour[1].split('.');
+	date = date[1]+'.'+date[0]+'.'+date[2];
+	date = new Date(Date.parse(date)).format('d mmmmm yyyy')
+	return '<div class="b-search_result_item" data-start="'+hotel[1]+'" data-price="'+tour[16]+'" data-food="'+tour[14]+'">'+
+				'<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">'+
+					'<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars'+hotel[2]+'"></i></span>'+
+					'<span class="b-search_result_item_hotel_name">'+hotel[1]+'</span>'+
+				'</div>'+
+				'<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">'+tour[10]+'</div>'+
+				'<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">'+date+'</div>'+
+				'<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">'+tour[14]+'</div>'+
+				'<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от '+tour[16]+'</div>'+
+				'<div class="b-search_result_item_border"></div>'+
+			'</div>'
+};
 $(function(){
+	//parse query string and make params object
 	var query = window.location.search.substring(1);
 	var vars = query.split("&");
 	var params = {};
@@ -339,19 +275,48 @@ $(function(){
 		var p =vars[i].split("=");
 		params[p[0]] = p[1];
 	}
+	//select accomodation id
 	$.each(accommodations,function(i,e){
 		if (e.child == params.child && e.adult == params.adult) {
-			console.log(e);
 			params.accommodationId = e.accommodationId;
 		}
 	});
+
+	$("#more").click(function(){
+		$(".b-search_result_item:hidden:lt(10)").show();
+		var more = $(".b-search_result_item:hidden").length;
+		if (more == 0) {
+			$(this).hide();
+		}
+		else {
+			var newValue = Math.min(more,10) +' туров';
+			if (more == 1) {
+				newValue = '1 тур';
+			}
+			else if (more < 5) {
+				newValue = more +' тура'
+			}
+			$(this).val('Показать еще '+newValue);	
+		}
+		return false;
+	});
+
+	//make request to tez tour api and fetch tours
 	$.ajax({
 		dataType: 'jsonp',
 		url: 'http://search.teztour.com/toursearch/getResult',
 		type: 'get',
 		data: params,
-		success: function(data){	
-			console.log(data);
+		success: function(data){
+			if (data.data.count == 0) {
+				//no tours found
+				return false;
+			}	
+			$.each(data.data,function(i, tour){
+				console.log(i, tour[6]);
+				tour = $(tourTemplate(tour)).appendTo("#results").hide();
+			});
+			$("#more").click();
 		}
 	});
 });
