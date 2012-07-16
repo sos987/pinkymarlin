@@ -1,0 +1,27 @@
+# Amazon Web Services credentials
+aws:
+  account_id: kelion
+  access_key_id: AKIAIOUHL3UI54MKFXKA
+  secret_access_key: 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
+  keypair_name: marlin
+  availability_zone: us-east-1a
+
+# Global script params
+ec2:
+  image_id: ami-fb665f8f
+  instance_type: t1.micro
+  ssh_user: ubuntu
+
+shell:
+  extra_options: -L 5433:localhost:5432
+
+webapp:
+  name: 
+  github_user: 
+  github_repo: 
+
+# Nodes and their script params
+nodes:
+  main:
+    ec2:
+      elastic_ip: 176.34.107.80

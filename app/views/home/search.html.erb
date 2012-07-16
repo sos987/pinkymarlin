@@ -5,7 +5,7 @@
 				<span class="b-formfield_select">
 					<select name="cityId">
 					  <%City.all.each do |c|%>
-		                <option value="<%=c.id%>"><%=c.name%></option>
+		                <option value="<%=c.id%>" <%=c.id == params[:cityId].to_i ? 'selected="selected"'.html_safe : ''%>><%=c.name%></option>
 		              <%end%>
 					</select>
 					<span class="b-formfield_select_content"></span>
@@ -17,7 +17,7 @@
 				<span class="b-formfield_select">
 					<select name="countryId">
 					  <%Country.all.each do |c|%>
-		                <option value="<%=c.id%>"><%=c.name%></option>
+		                <option value="<%=c.id%>" <%=c.id.to_i == params[:countryId].to_i ? 'selected="selected"' : ''%>><%=c.name%></option>
 		              <%end%>
 					</select>
 					<span class="b-formfield_select_content"></span>
@@ -25,14 +25,17 @@
 				</span>
 			</span>
 			
-			<label>вылет <span class="b-formfield b-popup_content_form_date_field"><input class="b-popup_content_form_date js-field_count" type="text" value="<%=params[:textDate]%>" name="textDate" /></span></label>
+			<label>вылет <span class="b-formfield b-popup_content_form_date_field"><input class="b-popup_content_form_date js-field_count"  id="date-text" type="text" value="<%=params[:textDate]%>" name="textDate" /></span></label>
 			<input type="hidden" name="before" id="date-before" value="<%=params[:before]%>">
 		    <input type="hidden" name="after" id="date-after"  value="<%=params[:after]%>">
-			<label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightsMin" value="<%=params[:nightsMin]%>" id="nightsMin"/></span> дней</label>
+			<label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" name="nightsMin" value="<%=params[:nightsMin]%>" id="nightsMin"/></span> дней</label>
 			<input type="hidden" name="nightsMax" value="<%=params[:nightsMax]%>" id="nightsMax">
 			<label><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="<%=params[:adult]%>" name="adult" /></span> взрослых</label>
 			<label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="<%=params[:child]%>" name="child" /></span> детей</label>
 			
+			<%@default_params.each do |key,val|%>
+	          <input type="hidden" name="<%=key%>" value="<%=val%>">
+	        <%end%>
 			<div class="b-search_form_set_buttons">
 				<a onclick="$(this).closest('form').submit();return false;" href="#" class="b-search_form_set_submit g-gradient"><span>Найти туры</span><i></i><u></u></a>
 				<a href="#" class="b-search_form_set_cancel">Отменить</a>
@@ -61,9 +64,9 @@
 			<dl class="b-search_form_filters_item">
 				<dt>Стоимость</dt>
 				<dd>
-					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_start"><input type="text" value="30000" name="price_start" /></span>
+					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_start"><input type="text" value="30000" name="price_start" id="filter-price-start"/></span>
 					&mdash;
-					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_end"><input type="text" value="100000" name="price_end" /></span>
+					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_end"><input type="text" value="100000" name="price_end" id="filter-price-end"/></span>
 					
 					<div class="b-search_form_filters_price_range"></div>
 				</dd>
@@ -71,10 +74,10 @@
 			</dl>
 			<dl class="b-search_form_filters_item">
 				<dt>Звездность</dt>
-				<dd class="b-search_form_filters_item_stars">
-					<span class="b-search_form_filters_stars b-search_form_filters_stars_start" value="1"><i class="b-search_form_filters_stars_1"></i></span>
+				<dd class="b-search_form_filters_item_stars"> 
+					<span class="b-search_form_filters_stars b-search_form_filters_stars_start" value="1" id="filter-stars-from"><i class="b-search_form_filters_stars_1"></i></span>
 					&mdash;
-					<span class="b-search_form_filters_stars b-search_form_filters_stars_end" value="5"><i class="b-search_form_filters_stars_5"></i></span>
+					<span class="b-search_form_filters_stars b-search_form_filters_stars_end" value="5" id="filter-stars-from"><i class="b-search_form_filters_stars_5" id="filter-stars-to"></i></span>
 				</dd>
 			</dl>
 			<dl class="b-search_form_filters_item">
@@ -82,11 +85,7 @@
 				<dd>
 					<span class="b-formfield b-search_form_filters_food">
 						<span class="b-formfield_select">
-							<select name="from">
-								<option>Все возможные</option>
-								<option>Только завтраки</option>
-								<option>Без питания</option>
-								<option>Все включено</option>
+							<select id="filter-food">
 							</select>
 							<span class="b-formfield_select_content"></span>
 							<span class="b-formfield_select_icon"><i></i></span>
@@ -250,11 +249,10 @@ var tourTemplate = function(tour) {
 	if (hotel == null) {
 		hotel = [tour[6],'']
 	}
-	console.log(tour);
 	var date = tour[1].split('.');
 	date = date[1]+'.'+date[0]+'.'+date[2];
 	date = new Date(Date.parse(date)).format('d mmmmm yyyy')
-	return '<div class="b-search_result_item" data-start="'+hotel[1]+'" data-price="'+tour[16]+'" data-food="'+tour[14]+'">'+
+	return '<div class="b-search_result_item" data-stars="'+hotel[1]+'" data-price="'+tour[16]+'" data-food="'+tour[14]+'">'+
 				'<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">'+
 					'<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars'+hotel[2]+'"></i></span>'+
 					'<span class="b-search_result_item_hotel_name">'+hotel[1]+'</span>'+
@@ -282,6 +280,39 @@ $(function(){
 		}
 	});
 
+
+	var filter = (function(){
+		var f = {
+			price: [0,999999],
+			stars: [0,5],
+			food: ''
+		};
+		var applyTimeout = null;
+		var applyFilter = function(){
+			clearTimeout(applyTimeout);
+			applyTimeout = setTimeout(function(){
+				$(".b-search_result_item:visible").each(function(){
+					//скрыть видимые не подходящие под фильтр
+					//при следующем клике "еще 10" выводить 10 подходящих
+					//при изменении фильтра работать над множеством до последнего показанного
+				});
+			},100);
+		};
+		$("#filter-price-start").bind('change',function(){f.price[0] = parseInt($(this).val()); applyFilter();});
+		$("#filter-price-end").bind('change',function(){f.price[1] = parseInt($(this).val()); applyFilter();});
+		$("#filter-stars-from").bind('change',function(){f.stars[0] = $(this).attr('value'); applyFilter();});
+		$("#filter-stars-to").bind('change',function(){
+			console.log($(this).attr('value'));
+			f.stars[1] = $(this).attr('value'); applyFilter();
+		});
+		$("#filter-food").bind('change',function(){f.food = $(this).find('option:selected').val(); applyFilter();});
+		return {
+			next: function(){
+
+			},
+		}
+	})();
+
 	$("#more").click(function(){
 		$(".b-search_result_item:hidden:lt(10)").show();
 		var more = $(".b-search_result_item:hidden").length;
@@ -301,6 +332,14 @@ $(function(){
 		return false;
 	});
 
+	$("#date-text").datepicker({dateFormat: 'mm.dd.yy'});
+	$("#date-text").change(function(){
+		var date = Date.parse($("#date-text").val());
+		$("#date-text").val(new Date(date).format('d mmmmm'));
+		$("#date-before").val(new Date(date+3*24*3600*1000).format('dd.mm.yyyy'));
+		$("#date-after").val(new Date(date-3*24*3600*1000).format('dd.mm.yyyy'));
+	});
+
 	//make request to tez tour api and fetch tours
 	$.ajax({
 		dataType: 'jsonp',
@@ -312,10 +351,12 @@ $(function(){
 				//no tours found
 				return false;
 			}	
+			var foods = '<option value="">Все возможные</option>';
 			$.each(data.data,function(i, tour){
-				console.log(i, tour[6]);
-				tour = $(tourTemplate(tour)).appendTo("#results").hide();
+				if (foods.indexOf(tour[14]) == -1) foods += '<option value="'+tour[14]+'">'+tour[14]+'</option>';
+				$(tourTemplate(tour)).appendTo("#results").hide();
 			});
+			$("#filter-food").html(foods).change();
 			$("#more").click();
 		}
 	});

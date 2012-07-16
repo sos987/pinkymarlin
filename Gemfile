@@ -22,6 +22,10 @@ group :assets do
   gem 'quiet_assets'
 end
 
+group :development do
+  gem 'standup'
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

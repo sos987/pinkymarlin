@@ -485,6 +485,11 @@ $(document).ready(function () {
 				items = $("OPTION", this);
 
 			head.text(items.filter(":selected").text());
+
+			$(this).bind('change',function(){
+				items = $("OPTION", this);
+				head.text(items.filter(":selected").text());
+			});
 		
 			o.click(function(){
 				if (o.parent().hasClass("b-formfield_active")) {
@@ -508,7 +513,8 @@ $(document).ready(function () {
 							li.addClass("b-formfield_select_list_selected").siblings(".b-formfield_select_list_selected").removeClass("b-formfield_select_list_selected");
 							items.removeAttr('selected');
 							items.eq(li.prevAll().length).attr("selected", "selected");
-							items.parent().change();
+							o.change();
+							o.find('select').change();
 							head.text($(this).text());
 						}
 						dropHide();
@@ -617,6 +623,7 @@ $(document).ready(function () {
 			value = value < min ? min : value;
 		}
 		$(this).attr('value', value).find('.b-search_form_filters_stars_' + old).removeClass('b-search_form_filters_stars_' + old).addClass('b-search_form_filters_stars_' + value);
+		$(this).trigger('change');
 	});
 	
 	/* search edit */
@@ -665,8 +672,8 @@ $(document).ready(function () {
 			max: document.maxPrice,
 			values: [$('.b-search_form_filters_price_start input').val(), $('.b-search_form_filters_price_end input').val()],
 			slide: function( event, ui ) {
-				$('.b-search_form_filters_price_start input').val(ui.values[0]);
-				$('.b-search_form_filters_price_end input').val(ui.values[1]);
+				$('.b-search_form_filters_price_start input').val(ui.values[0]).change();
+				$('.b-search_form_filters_price_end input').val(ui.values[1]).change();
 				
 				$('.b-search_form_filters_price_range_item_start span').text(ui.values[0]);
 				$('.b-search_form_filters_price_range_item_end span').text(ui.values[1]);
