@@ -24,6 +24,7 @@ end
 
 group :development do
   gem 'standup'
+  gem 'unicorn'
 end
 
 # To use ActiveModel has_secure_password

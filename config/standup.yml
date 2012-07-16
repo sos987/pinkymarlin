@@ -1,10 +1,13 @@
 # Amazon Web Services credentials
 aws:
-  account_id: kelion
-  access_key_id: AKIAIOUHL3UI54MKFXKA
-  secret_access_key: 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
-  keypair_name: marlin
-  availability_zone: us-east-1a
+  account_id: 0052-0731-7122
+  access_key_id: AKIAIDHYYYVTBDWN436Q
+  secret_access_key: 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
+  keypair_name: Marlin
+  availability_zone: eu-west-1c
+
+setup:
+  ec2 basics monit ruby unicorn postgresql webapp update
 
 # Global script params
 ec2:
@@ -16,9 +19,9 @@ shell:
   extra_options: -L 5433:localhost:5432
 
 webapp:
-  name: 
-  github_user: 
-  github_repo: 
+  name: marlinshop
+  github_user: KELiON
+  github_repo: KELiON/pinky-marlin
 
 # Nodes and their script params
 nodes:
