@@ -146,6 +146,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails
   compass-rails
+  execjs
   jquery-rails
   json
   oily_png (~> 1.0.1)

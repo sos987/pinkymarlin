@@ -14,6 +14,7 @@ gem 'json'
 gem 'jquery-rails'
 
 group :assets do
+  gem 'execjs'
   gem 'sass-rails'
   gem 'compass-rails'
   gem 'coffee-rails'
