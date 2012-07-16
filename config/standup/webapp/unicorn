@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 set -u
 set -e
 # Example init script, this can be used with nginx, too,
