@@ -5,14 +5,14 @@ gem 'rails', '3.1.3'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
-
-gem 'mysql'
+gem "mysql2"
 gem 'json'
 
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'jquery-rails'
+
+gem 'magic_encoding'
 
 group :assets do
   gem 'therubyracer', :require => 'v8'
