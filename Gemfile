@@ -14,7 +14,7 @@ gem 'json'
 gem 'jquery-rails'
 
 group :assets do
-  gem 'therubyracer'
+  gem 'therubyracer', :require => 'v8'
   gem 'execjs'
   gem 'sass-rails'
   gem 'compass-rails'
