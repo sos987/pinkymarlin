@@ -7,13 +7,16 @@ aws:
   availability_zone: eu-west-1c
 
 setup:
-  ec2 basics monit ruby unicorn postgresql webapp update
+  ec2 basics monit ruby mysql nginx webapp update
 
 # Global script params
 ec2:
-  image_id: ami-fb665f8f
+  image_id: ami-edc6fe99
   instance_type: t1.micro
   ssh_user: ubuntu
+
+ruby:
+  version: 1.9.3-p125
 
 shell:
   extra_options: -L 5433:localhost:5432
