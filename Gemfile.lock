@@ -70,6 +70,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.19)
     multi_json (1.3.6)
+    mysql (2.8.1)
     net-ssh (2.5.2)
     oily_png (1.0.2)
       chunky_png (~> 1.2.1)
@@ -152,6 +153,7 @@ DEPENDENCIES
   execjs
   jquery-rails
   json
+  mysql
   oily_png (~> 1.0.1)
   quiet_assets
   rails (= 3.1.3)
