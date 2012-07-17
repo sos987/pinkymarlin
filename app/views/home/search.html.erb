@@ -306,39 +306,40 @@ $(function(){
 			}
 		}
 		var applyFilter = function(){
-			clearTimeout(applyTimeout);
-			applyTimeout = setTimeout(function(){
-				var showed = 0;
-				var more = 0;
-				$(".b-search_result_item").each(function(){
-					var accepted = true;
-					for (var key in f) {
-						var attr = $(this).attr('data-'+key);
-						if (typeof f[key] == 'object') {
-							if (attr < f[key][0] || attr > f[key][1]) accepted = false;
-						}
-						else {
-							if (attr != f[key] && f[key] != '') accepted = false;
-						}
+			var showed = 0;
+			var more = 0;
+			$(".b-search_result_item").each(function(){
+				var accepted = true;
+				for (var key in f) {
+					var attr = $(this).attr('data-'+key);
+					if (typeof f[key] == 'object') {
+						if (attr < f[key][0] || attr > f[key][1]) accepted = false;
 					}
-					if (!accepted) {
-						$(this).animate({opacity: 0, height: 0},500,function(){$(this).hide();});
-					}
-					else if (showed == visibleCount) {
-							more++;
-						}
 					else {
-						showed++;
-						if ($(this).is(':hidden')) {
-							$(this).css({opacity: 0, height: 0}).show().animate({opacity:1, height: '57px'},500);
-						}
+						if (attr != f[key] && f[key] != '') accepted = false;
 					}
-				});
-				updateMoreButton(more);
-			},300);
+				}
+				if (!accepted) {
+					$(this).animate({opacity: 0, height: 0},500,function(){$(this).hide();});
+				}
+				else if (showed == visibleCount) {
+						more++;
+					}
+				else {
+					showed++;
+					if ($(this).is(':hidden')) {
+						$(this).css({opacity: 0, height: 0}).show().animate({opacity:1, height: '57px'},500);
+					}
+				}
+			});
+			updateMoreButton(more);
 		};
-		$("#filter-price-start").bind('change',function(){f.price[0] = parseInt($(this).val()); applyFilter();});
-		$("#filter-price-end").bind('change',function(){f.price[1] = parseInt($(this).val()); applyFilter();});
+		var deferredApplyFilter = function(){
+			clearTimeout(applyTimeout);
+			applyTimeout = setTimeout(applyFilter,200);
+		};
+		$("#filter-price-start").bind('change',function(){f.price[0] = parseInt($(this).val()); deferredApplyFilter();});
+		$("#filter-price-end").bind('change',function(){f.price[1] = parseInt($(this).val()); deferredApplyFilter();});
 		$("#filter-stars-from").bind('change',function(){f.stars[0] = $(this).attr('value'); applyFilter();});
 		$("#filter-stars-to").bind('change',function(){f.stars[1] = $(this).attr('value'); applyFilter();});
 		$("#filter-food").bind('change',function(){f.food = $(this).find('option:selected').val(); applyFilter();});
