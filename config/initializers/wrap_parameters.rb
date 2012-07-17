@@ -12,9 +12,3 @@ end
 ActiveSupport.on_load(:active_record) do
   self.include_root_in_json = false
 end
-
-
-if RUBY_VERSION >= '1.9'
-  Encoding.default_external = 'UTF-8'
-  Encoding.default_internal = 'UTF-8'
-end
