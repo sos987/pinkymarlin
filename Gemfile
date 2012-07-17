@@ -4,7 +4,6 @@ gem 'rails', '3.1.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 gem 'mysql2'
 gem 'json'
 
@@ -12,12 +11,10 @@ gem 'json'
 # in production environments by default.
 gem 'jquery-rails'
 
-gem 'magic_encoding'
-
 group :assets do
   gem 'therubyracer', :require => 'v8'
   gem 'execjs'
-  gem 'sass-rails'
+  gem 'sass-rails', '3.1.4'
   gem 'compass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
