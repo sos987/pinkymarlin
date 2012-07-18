@@ -246,7 +246,7 @@ var accommodations = <%=@accommodations.to_json.html_safe%>;
 //Temlate for tour
 var tourTemplate = function(tour) {
 	//one tour is array. See http://xml.teztour.com/XML_JSON_TS.html
-	var hotel = /(.*?)(\d[\+]*)\s?\*$/.exec(tour[6]);
+	var hotel = /(.*?)(\d[\+\s]*)\*$/.exec(tour[6]);
 	if (hotel == null) {
 		hotel = ['',tour[6],'']
 	}
@@ -289,7 +289,7 @@ $(function(){
 			stars: [0,5],
 			food: ''
 		};
-		var visibleCount = 0;
+		var visibleCount = 10;
 		var applyTimeout = null;
 		var updateMoreButton = function(more){
 			if (more == 0) {
@@ -324,9 +324,9 @@ $(function(){
 				if (!accepted) {
 					$(this).animate({opacity: 0, height: 0},500,function(){$(this).hide();});
 				}
-				else if (showed == visibleCount) {
-						more++;
-					}
+				else if (showed >= visibleCount) {
+					more++;
+				}
 				else {
 					showed++;
 					if ($(this).is(':hidden')) {
@@ -337,11 +337,12 @@ $(function(){
 			updateMoreButton(more);
 			if ((more < 10 || $(".b-search_result_item:visible").length < 10) && !no_new_tours) {
 				//fix speed when many elements loaded
-				var newPrice = $(".b-search_result_item:last").attr('data-price');
+				var newPrice = parseInt($(".b-search_result_item:last").attr('data-price'))+1;
 				if (newPrice <= f.price[1]) loadTours(newPrice);
 			}
 		};
 		var deferredApplyFilter = function(){
+			visibleCount = 10;
 			clearTimeout(applyTimeout);
 			applyTimeout = setTimeout(applyFilter,200);
 		};
@@ -355,6 +356,9 @@ $(function(){
 				visibleCount += 10;
 				applyFilter();
 			},
+			apply: function(){
+				applyFilter();
+			}
 		}
 	})();
 
@@ -392,11 +396,11 @@ $(function(){
 					$(tourTemplate(tour)).appendTo("#results").hide();
 				});
 				$("#filter-food").html(foods).change();
-				$("#more").click();
+				filter.apply();
 			},
 			error: function(){
-				no_new_tours = true;
-				$("<div class='b-search_result_no_results'>Ничего не найдено. Попробуйте изменить запрос</div>").appendTo("#results");
+				// no_new_tours = true;
+				// $("<div class='b-search_result_no_results'>Ничего не найдено. Попробуйте изменить запрос</div>").appendTo("#results");
 			}
 		});	
 	}
