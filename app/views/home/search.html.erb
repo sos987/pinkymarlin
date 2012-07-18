@@ -64,9 +64,9 @@
 			<dl class="b-search_form_filters_item">
 				<dt>Стоимость</dt>
 				<dd>
-					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_start"><input type="text" value="30000" name="price_start" id="filter-price-start"/></span>
+					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_start"><input type="text" value="10000" name="price_start" id="filter-price-start"/></span>
 					&mdash;
-					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_end"><input type="text" value="100000" name="price_end" id="filter-price-end"/></span>
+					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_end"><input type="text" value="<%=params[:adult].to_i+params[:child].to_i <= 2 ? '80000' : '100000'%>" name="price_end" id="filter-price-end"/></span>
 					
 					<div class="b-search_form_filters_price_range"></div>
 				</dd>
@@ -86,6 +86,7 @@
 					<span class="b-formfield b-search_form_filters_food">
 						<span class="b-formfield_select">
 							<select id="filter-food">
+								<option value="">Все возможные</option>
 							</select>
 							<span class="b-formfield_select_content"></span>
 							<span class="b-formfield_select_icon"><i></i></span>
@@ -245,10 +246,11 @@ var accommodations = <%=@accommodations.to_json.html_safe%>;
 //Temlate for tour
 var tourTemplate = function(tour) {
 	//one tour is array. See http://xml.teztour.com/XML_JSON_TS.html
-	var hotel = /(.*?)\s(\d[^\s]*)\s\*$/.exec(tour[6]);
+	var hotel = /(.*?)(\d[\+]*)\s?\*$/.exec(tour[6]);
 	if (hotel == null) {
-		hotel = [tour[6],'']
+		hotel = ['',tour[6],'']
 	}
+	hotel[2] = parseInt(hotel[2]);
 	var date = tour[1].split('.');
 	date = date[1]+'.'+date[0]+'.'+date[2];
 	date = new Date(Date.parse(date)).format('d mmmmm yyyy')
@@ -260,7 +262,7 @@ var tourTemplate = function(tour) {
 				'<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">'+tour[10]+'</div>'+
 				'<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">'+date+'</div>'+
 				'<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">'+tour[14]+'</div>'+
-				'<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">от '+tour[16]+'</div>'+
+				'<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">'+tour[16]+'</div>'+
 				'<div class="b-search_result_item_border"></div>'+
 			'</div>'
 };
@@ -280,7 +282,7 @@ $(function(){
 		}
 	});
 
-
+	var no_new_tours = false;
 	var filter = (function(){
 		var f = {
 			price: [0,999999],
@@ -333,6 +335,11 @@ $(function(){
 				}
 			});
 			updateMoreButton(more);
+			if ((more < 10 || $(".b-search_result_item:visible").length < 10) && !no_new_tours) {
+				//fix speed when many elements loaded
+				var newPrice = $(".b-search_result_item:last").attr('data-price');
+				if (newPrice <= f.price[1]) loadTours(newPrice);
+			}
 		};
 		var deferredApplyFilter = function(){
 			clearTimeout(applyTimeout);
@@ -364,25 +371,36 @@ $(function(){
 		$("#date-after").val(new Date(date-3*24*3600*1000).format('dd.mm.yyyy'));
 	});
 
-	//make request to tez tour api and fetch tours
-	$.ajax({
-		dataType: 'jsonp',
-		url: 'http://search.teztour.com/toursearch/getResult',
-		type: 'get',
-		data: params,
-		success: function(data){
-			if (data.data.count == 0) {
-				//no tours found
-				return false;
-			}	
-			var foods = '<option value="">Все возможные</option>';
-			$.each(data.data,function(i, tour){
-				if (foods.indexOf(tour[14]) == -1) foods += '<option value="'+tour[14]+'">'+tour[14]+'</option>';
-				$(tourTemplate(tour)).appendTo("#results").hide();
-			});
-			$("#filter-food").html(foods).change();
-			$("#more").click();
-		}
-	});
+	var loadTours = function(priceMin){
+		params.priceMin = priceMin;
+		$.ajax({
+			dataType: 'jsonp',
+			url: 'http://search.teztour.com/toursearch/getResult',
+			type: 'get',
+			data: params,
+			success: function(data){
+				if (!data.data || data.data.length == 0) {
+					if (priceMin == 0) {
+						no_new_tours = true;
+						$("<div class='b-search_result_no_results'>Ничего не найдено. Попробуйте изменить запрос</div>").appendTo("#results");
+					}
+					return false;
+				}	
+				var foods = $("#filter-food").html();
+				$.each(data.data,function(i, tour){
+					if (foods.indexOf(tour[14]) == -1) foods += '<option value="'+tour[14]+'">'+tour[14]+'</option>';
+					$(tourTemplate(tour)).appendTo("#results").hide();
+				});
+				$("#filter-food").html(foods).change();
+				$("#more").click();
+			},
+			error: function(){
+				no_new_tours = true;
+				$("<div class='b-search_result_no_results'>Ничего не найдено. Попробуйте изменить запрос</div>").appendTo("#results");
+			}
+		});	
+	}
+	loadTours(0);
+	$("#more").hide();
 });
 </script>

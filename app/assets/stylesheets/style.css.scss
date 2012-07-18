@@ -427,7 +427,7 @@ p {
 
 .b-calendar_week_day_inactive {
   cursor: default;
-  color: #fff; }
+  color: white !important; }
 
 .b-calendar_week_day_holyday {
   color: #c1272d; }
@@ -625,7 +625,10 @@ p {
 
 .b-about_content {
   padding: 0;
-  background-image: none!important; }
+  background-image: none!important; 
+  width: 960px; 
+  margin: 0 auto;
+}
 
 .b-about_fotorama {
   position: absolute;
@@ -1333,6 +1336,17 @@ input {
   overflow: hidden;
   position: relative; }
 
+.b-search_result_no_results{
+  font-size: 20px;
+  line-height: 16px;
+  overflow: hidden;
+  position: relative; 
+  background: rgba(255, 255, 255, 0.8);
+  padding-top: 19px;
+  padding-bottom: 24px;
+  text-align: center;
+}  
+
 .ie7 .b-search_result_item, .ie8 .b-search_result_item {
   zoom: 1; }
 
@@ -1537,7 +1551,8 @@ input {
   text-align: center;
   padding: 10px;
   color: #29364a;
-  margin: 20px 0 0; }
+  margin: 20px 0 0; 
+}
 
 .ie7 .b-search_result_more, .ie8 .b-search_result_more {
   background: image_url('bg/ffffff-0.70.png'); }
