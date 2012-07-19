@@ -248,7 +248,7 @@ var tourTemplate = function(tour) {
 	//one tour is array. See http://xml.teztour.com/XML_JSON_TS.html
 	var hotel = /(.*?)(\d[\+\s]*)\*$/.exec(tour[6]);
 	if (hotel == null) {
-		hotel = ['',tour[6],'']
+		hotel = ['',tour[6],3]
 	}
 	hotel[2] = parseInt(hotel[2]);
 	var date = tour[1].split('.');
