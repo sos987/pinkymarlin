@@ -9,31 +9,31 @@
 	<table>
 		<tr>
 			<td>Дата:</td>
-			<td>c <%=@info[:tour][:date]%> на <%=@info[:tour][:nights]%> (<%=@info[:tour][:until]%>)</td>
+			<td>c <%=@info['tour']['date']%> на <%=@info['tour']['nights']%> (<%=@info['tour']['until']%>)</td>
 		</tr>
 		<tr>
 			<td>Отель:</td>
-			<td><a href="<%=@info[:tour][:hotel_link]%>"><%=@info[:tour][:hotel]%></a></td>
+			<td><a href="<%=@info['tour']['hotel_link']%>"><%=@info['tour']['hotel']%></a></td>
 		</tr>
 		<tr>
 			<td>Тип комнаты:</td>
-			<td><%=@info[:tour][:room_type]%></td>
+			<td><%=@info['tour']['room_type']%></td>
 		</tr>
 		<tr>
 			<td>Регион</td>
-			<td><%=@info[:tour][:region]%></td>
+			<td><%=@info['tour']['region']%></td>
 		</tr>
 		<tr>
 			<td>Питание</td>
-			<td><%=@info[:tour][:food]%> (<%=@info[:tour][:food_full]%>)</td>
+			<td><%=@info['tour']['food']%> (<%=@info['tour']['food_full']%>)</td>
 		</tr>
 		<tr>
 			<td>Размещение</td>
-			<td><%=@info[:tour][:accomodation].html_safe%></td>
+			<td><%=@info['tour']['accomodation'].html_safe%></td>
 		</tr>
 		<tr>
 			<td>Цена</td>
-			<td><%=@info[:tour][:price]%></td>
+			<td><%=@info['tour']['price']%></td>
 		</tr>
 	<table>
 	<div style="font-size: 18px; padding: 2px 0 15px; margin-top: 50px;">Информация о туристах</div>
@@ -46,21 +46,21 @@
 			<td style="padding: 10px;">Email</td>
 		</tr>
 		<tbody>
-			<%@info[:users].map{|u| u[1]}.each do |u|%>
+			<%@info['users'].map{|u| u[1]}.each do |u|%>
 			<tr>
-				<td style="padding: 10px;"><%=u[:sex] == 'male' ? 'мужской' : 'женский'%></td>
-				<td style="padding: 10px;"><%=u[:name]%></td>
-				<td style="padding: 10px;"><%=u[:passport]%></td>
-				<td style="padding: 10px;"><%=u[:phone]%></td>
-				<td style="padding: 10px;"><%=u[:email]%></td>
+				<td style="padding: 10px;"><%=u['sex'] == 'male' ? 'мужской' : 'женский'%></td>
+				<td style="padding: 10px;"><%=u['name']%></td>
+				<td style="padding: 10px;"><%=u['passport']%></td>
+				<td style="padding: 10px;"><%=u['phone']%></td>
+				<td style="padding: 10px;"><%=u['email']%></td>
 			</tr>
 			<%end%>
 		</tbody>
 	</table>
 	<div style="font-size: 18px; padding: 2px 0 15px; margin-top: 50px;">Билеты на самолет</div>
 	<div class="b-card_flight_data">
-		<div style="float: left; position: relative; height: 75px; overflow: hidden; padding-left: 38px; margin-right: 18px;"><span style="position: absolute; left: 0; top: 12px;">Туда: </span><%=@info[:flight][:first]%></div>
-		<div style="float: left; position: relative; height: 75px; overflow: hidden; padding-left: 67px;"><span style="position: absolute; left: 0; top: 12px;">Обратно: </span><%=@info[:flight][:second]%></div>
+		<div style="float: left; position: relative; height: 75px; overflow: hidden; padding-left: 38px; margin-right: 18px;"><span style="position: absolute; left: 0; top: 12px;">Туда: </span><%=@info['flight']['first']%></div>
+		<div style="float: left; position: relative; height: 75px; overflow: hidden; padding-left: 67px;"><span style="position: absolute; left: 0; top: 12px;">Обратно: </span><%=@info['flight']['second']%></div>
 	</div>
 </div>
 </body>
