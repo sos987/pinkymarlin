@@ -1,3 +1,6 @@
+require 'resque'
+require 'resque/server'
+
 MarlinSearcher::Application.routes.draw do
   mount Resque::Server.new, :at => "/resque-tasks"
   # The priority is based upon order of creation:

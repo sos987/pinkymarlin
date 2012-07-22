@@ -17,6 +17,3 @@ if RUBY_VERSION >= '1.9'
 	Encoding.default_external = 'UTF-8'  	
 	Encoding.default_internal = 'UTF-8'
 end
-
-require 'resque'
-require 'resque/server'

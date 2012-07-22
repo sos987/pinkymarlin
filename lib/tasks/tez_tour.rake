@@ -1,4 +1,5 @@
 require 'tez_tour'
+require 'resque/tasks'
 
 namespace :tez_tour do
   desc "Delete existing genres/subgenres and tracks"
