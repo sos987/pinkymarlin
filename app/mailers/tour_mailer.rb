@@ -1,6 +1,6 @@
 # coding: utf-8
 class TourMailer < ActionMailer::Base
-  #include Resque::Mailer
+  include Resque::Mailer
 
   default :content_type => 'text/html',
           :from => Settings.mailer.from
