@@ -335,7 +335,24 @@ var formCreator = (function(){
 
 	var applyTourInfo = function(tour){
 		$(".b-form-hidden-fields").remove();
+		console.log(tour);
 		var html = '<div style="" class="b-form-hidden-fields">';
+		var keys = {
+			date: 1,
+			nights: 4,
+			until: 5,
+			hotel: 6,
+			hotel_link: 7,
+			room_type: 8,
+			region: 10,
+			food: 13,
+			food_full: 14,
+			accomodation: 15,
+			price: 16
+		};
+		for (var key in keys) {
+			html += '<input type="hidden" name="tour['+key+']" value="'+tour[keys[key]]+'">';
+		}
 		html +='</div>';
 		$(html).insertAfter('#form-tourists-data');
 	};

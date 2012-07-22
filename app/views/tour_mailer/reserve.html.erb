@@ -5,6 +5,37 @@
 <body>
 <div style="color: #29364A; font-size: 15px; line-height: 19px; font-family: 'SegoeUI',arial,sans-serif; padding: 15px 10px;">	
 	<p>На сайте розового марлина забронировали тур.</p>
+	<div style="font-size: 18px; padding: 2px 0 15px;">Информация о туре</div>
+	<table>
+		<tr>
+			<td>Дата:</td>
+			<td>c <%=@info[:tour][:date]%> на <%=@info[:tour][:nights]%> (<%=@info[:tour][:until]%>)</td>
+		</tr>
+		<tr>
+			<td>Отель:</td>
+			<td><a href="<%=@info[:tour][:hotel_link]%>"><%=@info[:tour][:hotel]%></a></td>
+		</tr>
+		<tr>
+			<td>Тип комнаты:</td>
+			<td><%=@info[:tour][:room_type]%></td>
+		</tr>
+		<tr>
+			<td>Регион</td>
+			<td><%=@info[:tour][:region]%></td>
+		</tr>
+		<tr>
+			<td>Питание</td>
+			<td><%=@info[:tour][:food]%> (<%=@info[:tour][:food_full]%>)</td>
+		</tr>
+		<tr>
+			<td>Размещение</td>
+			<td><%=@info[:tour][:accomodation].html_safe%></td>
+		</tr>
+		<tr>
+			<td>Цена</td>
+			<td><%=@info[:tour][:price]%></td>
+		</tr>
+	<table>
 	<div style="font-size: 18px; padding: 2px 0 15px;">Информация о туристах</div>
 	<table>
 		<tr>
