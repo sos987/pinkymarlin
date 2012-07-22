@@ -13,6 +13,8 @@ gem 'settingslogic'
 # in production environments by default.
 gem 'jquery-rails'
 
+gem 'whenever', :require => false
+
 group :assets do
   gem 'therubyracer', :require => 'v8'
   gem 'execjs'
