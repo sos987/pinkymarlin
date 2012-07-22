@@ -31,6 +31,10 @@ group :development do
   gem 'unicorn'
 end
 
+
+gem 'resque'
+gem 'resque_mailer'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

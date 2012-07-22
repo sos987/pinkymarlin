@@ -7,7 +7,7 @@ aws:
   availability_zone: eu-west-1c
 
 setup:
-  ec2 basics monit ruby mysql nginx webapp update
+  ec2 basics monit ruby mysql redis resque nginx webapp update
 
 # Global script params
 ec2:
