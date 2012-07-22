@@ -1,4 +1,5 @@
 require 'tez_tour'
+require 'settings'
 
 class HomeController < ActionController::Base	
   include TezTour
@@ -16,5 +17,13 @@ class HomeController < ActionController::Base
     @city = City.find(params[:cityId])
     @country = Country.find(params[:countryId])
     @count = params[:adult].to_i + params[:child].to_i
+  end
+
+  def reserve
+    TourMailer.reserve(params).deliver
+    respond_to do |format|
+      format.html {:back}
+      format.json {render :json => {:reserved => true}}
+    end
   end
 end

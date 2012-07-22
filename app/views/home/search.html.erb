@@ -1,6 +1,6 @@
 <div class="b-search">
 	<div class="b-search_form">
-		<form class="b-search_form_set" id="booking-form" action="">
+		<form class="b-search_form_set" action="">
 			<span class="b-formfield b-popup_content_form_from">
 				<span class="b-formfield_select">
 					<select name="cityId">
@@ -111,7 +111,7 @@
 		
 		<div class="b-search_result_item_form">
 			<div class="b-search_result_item_form_top"><a></a><b></b><i></i><u></u><s></s></div>
-			<form class="b-search_result_item_form_content b-card">
+			<form class="b-search_result_item_form_content b-card" id="reserve-form">
 				<div class="b-card_header" id="form-tourists-data">Информация о туристах</div>
 				<div class="b-card_header">Билеты на самолет</div>
 				<div class="b-card_flight_data">
@@ -306,44 +306,44 @@ $(function(){
 
 	var formCreator = (function(){
 		var form = $('.b-search_result_item_form');
-		var touristTpl = function(){
+		var touristTpl = function(i){
 			return '<div class="b-card_personal_data">'+
 					'<div class="b-card_personal_data_sex">'+
 						'<span class="b-card_personal_data_caption">Пол</span>'+
 						'<label class="b-card_personal_data_item b-card_personal_data_item_selected" title="Мужской">'+
 							'<i class="b-card_personal_data_icon b-card_personal_data_icon_male"></i>'+
-							'<input checked="checked" class="b-card_personal_data_field" type="radio" name="user[sex][]" value="male" />'+
+							'<input checked="checked" class="b-card_personal_data_field" type="radio" name="users['+i+'][sex]" value="male" />'+
 							'<span class="b-card_personal_data_value">Мужской</span>'+
 						'</label>'+
 						'<label class="b-card_personal_data_item" title="Женский">'+
 							'<i class="b-card_personal_data_icon b-card_personal_data_icon_female"></i>'+
-							'<input class="b-card_personal_data_field" type="radio" name="user[sex][]" value="female" />'+
+							'<input class="b-card_personal_data_field" type="radio" name="users['+i+'][sex]" value="female" />'+
 							'<span class="b-card_personal_data_value">Женский</span>'+
 						'</label>'+
 					'</div>'+
 					'<div class="b-card_personal_data_name">'+
 						'<label class="b-card_personal_data_caption">Имя и фамилия</label>'+
 						'<label class="b-card_personal_data_notice">латинскими буквами</label>'+
-						'<span class="b-formfield"><input class="b-card_personal_data_field" type="text" value="" name="user[name][]" /></span>'+
+						'<span class="b-formfield"><input class="b-card_personal_data_field" type="text" value="" name="users['+i+'][name]" /></span>'+
 					'</div>'+
 					'<div class="b-card_personal_data_passport">'+
 						'<label class="b-card_personal_data_caption">Загранпаспорт</label>'+
 						'<label class="b-card_personal_data_notice">серия и номер</label>'+
-						'<span class="b-formfield"><input class="b-card_personal_data_field" type="text" value="" name="user[passport][]" /></span>'+
+						'<span class="b-formfield"><input class="b-card_personal_data_field" type="text" value="" name="users['+i+'][passport]" /></span>'+
 					'</div>'+
 					'<div class="b-card_personal_data_phone">'+
 						'<label class="b-card_personal_data_caption">Телефон</label>'+
 						'<label class="b-card_personal_data_notice">+7 111 222 33 44</label>'+
-						'<span class="b-formfield"><input class="b-card_personal_data_field" type="tel" value="" name="user[phone][]" /></span>'+
+						'<span class="b-formfield"><input class="b-card_personal_data_field" type="tel" value="" name="users['+i+'][phone]" /></span>'+
 					'</div>'+
 					'<div class="b-card_personal_data_email">'+
 						'<label class="b-card_personal_data_caption">Электронная почта</label>'+
 						'<label class="b-card_personal_data_notice">givemetotrip@rozovymarlin.ru</label>'+
-						'<span class="b-formfield"><input class="b-card_personal_data_field" type="email" value="" name="user[email][]" /></span>'+
+						'<span class="b-formfield"><input class="b-card_personal_data_field" type="email" value="" name="users['+i+'][email]" /></span>'+
 					'</div>'+
 				'</div>';
 		};
-		var ticketsInfoTpl = function(data){
+		var ticketsInfoTpl = function(data,name){
 			var count = data['count'];
 			if (count == 'Many' || count == 'Available') count = 'Много'
 			else if (count == 'Few') count = 'Мало'
@@ -354,7 +354,7 @@ $(function(){
 			var klass = 'b-card_flight_data_item';
 			if (data['count'] == 'No') klass+= ' b-card_flight_data_item_disabled';
 			return '<label class="'+klass+'" title="'+data['title']+'">'+
-				'<input class="b-card_flight_data_field" type="radio" name="flight[first][]" value="'+data['title']+'" />'+
+				'<input class="b-card_flight_data_field" type="radio" name="flight['+name+']" value="'+data['title']+'" />'+
 				'<span class="b-card_flight_data_icon"></span>'+
 				'<span class="b-card_flight_data_value">'+data['title']+'</span>'+
 				'<span class="b-card_flight_data_notice">'+count+'</span>'+
@@ -364,7 +364,7 @@ $(function(){
 			$(".b-card_personal_data").remove();
 			var html = '';
 			for (var i=0;i<count;i++) {
-				html += touristTpl();
+				html += touristTpl(i);
 			}
 			$(html).insertAfter('#form-tourists-data');
 			$('.b-formfield .b-card_personal_data_field').change(function () {
@@ -394,7 +394,7 @@ $(function(){
 				{title: 'Первый', count: tour[22], plus: tour[26]}
 			];
 			for (var i in tmp) {
-				$(ticketsInfoTpl(tmp[i])).appendTo('.b-card_flight_data_first');
+				$(ticketsInfoTpl(tmp[i],'first')).appendTo('.b-card_flight_data_first');
 			}
 			tmp = [
 				{title: 'Эконом', count: tour[27], plus: tour[31]},
@@ -403,7 +403,7 @@ $(function(){
 				{title: 'Первый', count: tour[30], plus: tour[34]}
 			];
 			for (var i in tmp) {
-				$(ticketsInfoTpl(tmp[i])).appendTo('.b-card_flight_data_second');
+				$(ticketsInfoTpl(tmp[i],'second')).appendTo('.b-card_flight_data_second');
 			}
 			$(".b-card_flight_data_first .b-card_flight_data_item:not(.b-card_flight_data_item_disabled):first").click();
 			$(".b-card_flight_data_second .b-card_flight_data_item:not(.b-card_flight_data_item_disabled):first").click();
@@ -445,6 +445,22 @@ $(function(){
 				
 			}
 		}
+	});
+
+	$("#reserve-form").on('submit',function(){
+		$.post('<%=reserve_path%>',$(this).serialize(),function(data){
+			if (data.reserved) {
+				$("<div class='b-search_result_no_results' id='thanks'>Спасибо! Наш менеджер свяжется с вами в ближайшее время.</div>").insertAfter('.b-search_result_item_form');
+				$('.b-search_result_item_form').hide();
+				setTimeout(function(){
+					$("#thanks").animate({opacity: 0, height: 0},333,function(){
+						$(this).remove();
+						$(".b-search_result_item_selected").removeClass('b-search_result_item_selected');
+					});
+				},2000)
+			}
+		},'json');
+		return false;
 	});
 });
 </script>

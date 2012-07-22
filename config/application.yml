@@ -1,0 +1,13 @@
+development:
+  mailer: 
+    from: Розовый Марлин <shop.rozovymarlin@yandex.ru>
+    to: subbotin.alexandr@gmail.com
+    subject: Бронирование тура
+  host: 'http://localhost:3000/'
+
+production:
+  mailer: 
+    from: Розовый Марлин <shop.rozovymarlin@yandex.ru>
+    to: shop.rozovymarlin@yandex.ru
+    subject: Бронирование тура
+  host: 'http://shop.rozovymarlin.ru'  

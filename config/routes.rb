@@ -50,6 +50,7 @@ MarlinSearcher::Application.routes.draw do
   
   root :to => 'home#index'
   match 'search' => 'home#search', :as => :search
+  post 'reserve' => 'home#reserve', :as => :reserve
 
   # See how all your routes lay out with "rake routes"
 

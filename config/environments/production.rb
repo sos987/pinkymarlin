@@ -46,7 +46,18 @@ MarlinSearcher::Application.configure do
   # config.assets.precompile += %w( search.js )
 
   # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.yandex.ru",
+    :port                 => 587,
+    :domain               => 'smtp.yandex.ru',
+    :user_name            => 'shop.rozovymarlin',
+    :password             => 'pinkymarlin',
+    :authentication       => :login,
+    :enable_starttls_auto => true
+  }
 
   # Enable threaded mode
   # config.threadsafe!
