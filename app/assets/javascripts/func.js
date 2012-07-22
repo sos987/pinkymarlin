@@ -536,34 +536,6 @@ $(document).ready(function () {
 		$(document).click(dropHide);
 	}
 	
-	/* hide and show form */
-	$('.b-search_result_item .b-search_result_col').click(function () {
-		var obj = $(this).parent('.b-search_result_item');
-		var form = $('.b-search_result_item_form');
-		
-		if ($(obj).hasClass('b-search_result_item_selected')) {
-			$(form).slideUp(333, function () {
-				$(obj).removeClass('b-search_result_item_selected');
-			});
-		} else {
-			if ($('.b-search_result_item_selected').length) {
-				$(form).slideUp(333, function () {
-					$('.b-search_result_item_selected').removeClass('b-search_result_item_selected');
-					$(obj).append(form).addClass('b-search_result_item_selected');
-					$(form).slideDown(333, function () {
-						$('body').stop().animate({scrollTop: $(obj).offset().top}, 1666, 'easeInOutExpo');
-					});
-				});
-			} else {
-				$(obj).append(form).addClass('b-search_result_item_selected');
-				$(form).slideDown(333, function () {
-					$('body').stop().animate({scrollTop: $(obj).offset().top}, 1666, 'easeInOutExpo');
-				});
-				
-			}
-		}
-	});
-	
 	/* labels for input fields */
 	$('input', '.b-card_personal_data').each(function (i, e) {
 		$(e).attr('id', 'field' + i);
@@ -578,37 +550,20 @@ $(document).ready(function () {
 	});
 	
 	/* radio buttons (sex and flight type) */
-	$('.b-card_personal_data_item', '.b-card_personal_data_sex').click(function () {
+	$('.b-card_personal_data_item', '.b-card_personal_data_sex').live('click',function () {
 		if ($(this).hasClass('b-card_personal_data_item_selected')) {
 			return;
 		}
 		$(this).closest('.b-card_personal_data_sex').find('.b-card_personal_data_item_selected').removeClass('b-card_personal_data_item_selected');
 		$(this).addClass('b-card_personal_data_item_selected');
 	});
-	$('.b-card_flight_data_item', '.b-card_flight_data_block').click(function () {
+	$('.b-card_flight_data_item', '.b-card_flight_data_block').live('click',function () {
 		if ($(this).hasClass('b-card_flight_data_item_selected') || $(this).hasClass('b-card_flight_data_item_disabled')) {
 			return;
 		}
 		$(this).closest('.b-card_flight_data_block').find('.b-card_flight_data_item_selected').removeClass('b-card_flight_data_item_selected');
 		$(this).addClass('b-card_flight_data_item_selected');
 	});
-	$('.b-formfield .b-card_personal_data_field').change(function () {
-		if ($(this).val()) {
-			$(this).parent().siblings('.b-card_personal_data_caption').hide();
-		} else {
-			$(this).parent().siblings('.b-card_personal_data_caption').show();
-		}
-	}).blur(function () {
-		if (!$(this).val()) {
-			$(this).parent().siblings('.b-card_personal_data_caption').show();
-		}
-	}).keyup(function () {
-		if ($(this).val()) {
-			$(this).parent().siblings('.b-card_personal_data_caption').hide();
-		} else {
-			$(this).parent().siblings('.b-card_personal_data_caption').show();
-		}
-	}).change();
 	
 	/* search stars */
 	$('.b-search_form_filters_stars').click(function (e) {
@@ -681,8 +636,25 @@ $(document).ready(function () {
 		});
 		$('.ui-slider-handle').eq(0).addClass('b-search_form_filters_price_range_item b-search_form_filters_price_range_item_start').html('<span class="b-search_form_filters_price_range_item_value">' + $('.b-search_form_filters_price_start input').val() + '</span><i></i>');
 		$('.ui-slider-handle').eq(1).addClass('b-search_form_filters_price_range_item b-search_form_filters_price_range_item_end').html('<span class="b-search_form_filters_price_range_item_value">' + $('.b-search_form_filters_price_end input').val() + '</span><i></i>');
-	}
+	};
+
+	$("[data-numbering-to]").change(function(){
+		$($(this).attr("data-numbering-to")).text(word($(this).val(),$(this).data("words"),true));
+	});
 });
+
+function word(number, words, no_number) {
+	if (typeof no_number == 'undefined') no_number = false;
+	var n = number % 100;
+	var ending = words[2];
+    if (n<11 || n>19) {
+    	n = n % 10;
+    }    
+    if (n == 1) ending = words[0];
+    else if (n < 5 && n != 0) ending = words[1];
+    else ending = words[2];
+    return no_number ? ending : number+' '+ending;
+}
 
 
 

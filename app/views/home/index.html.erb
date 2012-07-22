@@ -85,10 +85,10 @@
         </span>
       </div>
       <div class="b-popup_content_form_fieldset">
-        <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightsMin" id="nightsMin" /></span> дней</label>
+        <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightsMin" id="nightsMin" data-numbering-to="#fly-days" data-words='["день","дня","дней"]' /></span> <span id="fly-days">дней</span></label>
         <input type="hidden" name="nightsMax" value="10" id="nightsMax">
-        <label class="b-popup_content_form_adult_label"><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" /></span> взрослых</label>
-        <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="child" /></span> детей</label>
+        <label class="b-popup_content_form_adult_label"><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" data-numbering-to="#fly-adults" data-words='["взрослый","взрослых","взрослых"]'/></span> <span id="fly-adults">взрослых</span></label>
+        <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="child" data-numbering-to="#fly-childs" data-words='["ребенок","ребенка","детей"]'/></span> <span id="fly-childs">детей</span></label>
       </div>
       <div class="b-popup_content_form_fieldset b-popup_content_form_fieldset_center">
         <a onclick="$(this).closest('form').submit();return false;" href="#" class="b-popup_content_form_submit"><span>Найти тур</span><i></i><u></u></a>
