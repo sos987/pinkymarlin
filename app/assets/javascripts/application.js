@@ -8,5 +8,5 @@
 //= require jquery-ui-1.8.20.min
 //= require fotorama
 //= require global
-//= require index
+//= require index-page
 //= require search
