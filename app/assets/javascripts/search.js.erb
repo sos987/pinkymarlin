@@ -45,7 +45,6 @@ $(function(){
 		var form = $('.b-search_result_item_form');
 
 		var showForm = function(){
-			console.log(formCreator.create(obj.data('tour')));
 			formCreator.create(obj.data('tour')).slideDown(333, function () {
 				$('body').stop().animate({scrollTop: $(obj).offset().top}, 1666, 'easeInOutExpo');
 			});
@@ -333,11 +332,19 @@ var formCreator = (function(){
 		$(".b-card_flight_data_first .b-card_flight_data_item:not(.b-card_flight_data_item_disabled):first").click();
 		$(".b-card_flight_data_second .b-card_flight_data_item:not(.b-card_flight_data_item_disabled):first").click();
 	};
+
+	var applyTourInfo = function(tour){
+		$(".b-form-hidden-fields").remove();
+		var html = '<div style="" class="b-form-hidden-fields">';
+		html +='</div>';
+		$(html).insertAfter('#form-tourists-data');
+	};
 	return {
 		count: 0,
 		create: function(tour) {
 			applyTouristsCount(this.count);
-			applyTicketsInfo(tour)
+			applyTicketsInfo(tour);
+			applyTourInfo(tour);
 			return $('.b-search_result_item_form');;
 		}
 	}
