@@ -1,0 +1,498 @@
+/*
+ * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+ *
+ * Uses the built in easing capabilities added In jQuery 1.1
+ * to offer multiple easing options
+ *
+ * TERMS OF USE - jQuery Easing
+ * 
+ * Open source under the BSD License. 
+ * 
+ * Copyright Â© 2008 George McGinley Smith
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, 
+ * are permitted provided that the following conditions are met:
+ * 
+ * Redistributions of source code must retain the above copyright notice, this list of 
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list 
+ * of conditions and the following disclaimer in the documentation and/or other materials 
+ * provided with the distribution.
+ * 
+ * Neither the name of the author nor the names of contributors may be used to endorse 
+ * or promote products derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * OF THE POSSIBILITY OF SUCH DAMAGE. 
+ *
+*/
+
+// t: current time, b: begInnIng value, c: change In value, d: duration
+jQuery.easing['jswing'] = jQuery.easing['swing'];
+
+jQuery.extend( jQuery.easing,
+{
+	def: 'easeOutQuad',
+	swing: function (x, t, b, c, d) {
+		//alert(jQuery.easing.default);
+		return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
+	},
+	easeInQuad: function (x, t, b, c, d) {
+		return c*(t/=d)*t + b;
+	},
+	easeOutQuad: function (x, t, b, c, d) {
+		return -c *(t/=d)*(t-2) + b;
+	},
+	easeInOutQuad: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t + b;
+		return -c/2 * ((--t)*(t-2) - 1) + b;
+	},
+	easeInCubic: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t + b;
+	},
+	easeOutCubic: function (x, t, b, c, d) {
+		return c*((t=t/d-1)*t*t + 1) + b;
+	},
+	easeInOutCubic: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t + b;
+		return c/2*((t-=2)*t*t + 2) + b;
+	},
+	easeInQuart: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t*t + b;
+	},
+	easeOutQuart: function (x, t, b, c, d) {
+		return -c * ((t=t/d-1)*t*t*t - 1) + b;
+	},
+	easeInOutQuart: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
+		return -c/2 * ((t-=2)*t*t*t - 2) + b;
+	},
+	easeInQuint: function (x, t, b, c, d) {
+		return c*(t/=d)*t*t*t*t + b;
+	},
+	easeOutQuint: function (x, t, b, c, d) {
+		return c*((t=t/d-1)*t*t*t*t + 1) + b;
+	},
+	easeInOutQuint: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
+		return c/2*((t-=2)*t*t*t*t + 2) + b;
+	},
+	easeInSine: function (x, t, b, c, d) {
+		return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+	},
+	easeOutSine: function (x, t, b, c, d) {
+		return c * Math.sin(t/d * (Math.PI/2)) + b;
+	},
+	easeInOutSine: function (x, t, b, c, d) {
+		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+	},
+	easeInExpo: function (x, t, b, c, d) {
+		return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
+	},
+	easeOutExpo: function (x, t, b, c, d) {
+		return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+	},
+	easeInOutExpo: function (x, t, b, c, d) {
+		if (t==0) return b;
+		if (t==d) return b+c;
+		if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+		return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+	},
+	easeInCirc: function (x, t, b, c, d) {
+		return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+	},
+	easeOutCirc: function (x, t, b, c, d) {
+		return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+	},
+	easeInOutCirc: function (x, t, b, c, d) {
+		if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
+		return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
+	},
+	easeInElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+	},
+	easeOutElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
+	},
+	easeInOutElastic: function (x, t, b, c, d) {
+		var s=1.70158;var p=0;var a=c;
+		if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
+		if (a < Math.abs(c)) { a=c; var s=p/4; }
+		else var s = p/(2*Math.PI) * Math.asin (c/a);
+		if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+		return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
+	},
+	easeInBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158;
+		return c*(t/=d)*t*((s+1)*t - s) + b;
+	},
+	easeOutBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158;
+		return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
+	},
+	easeInOutBack: function (x, t, b, c, d, s) {
+		if (s == undefined) s = 1.70158; 
+		if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
+		return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
+	},
+	easeInBounce: function (x, t, b, c, d) {
+		return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
+	},
+	easeOutBounce: function (x, t, b, c, d) {
+		if ((t/=d) < (1/2.75)) {
+			return c*(7.5625*t*t) + b;
+		} else if (t < (2/2.75)) {
+			return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
+		} else if (t < (2.5/2.75)) {
+			return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
+		} else {
+			return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
+		}
+	},
+	easeInOutBounce: function (x, t, b, c, d) {
+		if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
+		return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
+	}
+});
+
+var dateFormat = function () {
+	var	token = /d{1,5}|m{1,5}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+		timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+		timezoneClip = /[^-+\dA-Z]/g,
+		pad = function (val, len) {
+			val = String(val);
+			len = len || 2;
+			while (val.length < len) val = "0" + val;
+			return val;
+		};
+
+	// Regexes and supporting functions are cached through closure
+	return function (date, mask, utc) {
+		var dF = dateFormat;
+
+		// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+		if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+			mask = date;
+			date = undefined;
+		}
+
+		// Passing date through Date applies Date.parse, if necessary
+		date = date ? new Date(date) : new Date;
+		if (isNaN(date)) throw SyntaxError("invalid date");
+
+		mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+		// Allow setting the utc argument via the mask
+		if (mask.slice(0, 4) == "UTC:") {
+			mask = mask.slice(4);
+			utc = true;
+		}
+
+		var	_ = utc ? "getUTC" : "get",
+			d = date[_ + "Date"](),
+			D = date[_ + "Day"](),
+			m = date[_ + "Month"](),
+			y = date[_ + "FullYear"](),
+			H = date[_ + "Hours"](),
+			M = date[_ + "Minutes"](),
+			s = date[_ + "Seconds"](),
+			L = date[_ + "Milliseconds"](),
+			o = utc ? 0 : date.getTimezoneOffset(),
+			flags = {
+				d:    d,
+				dd:   pad(d),
+				ddd:  dF.i18n.dayNames[D],
+				dddd: dF.i18n.dayNames[D + 7],
+				ddddd: D > 0 ? D - 1 : 6,
+				m:    m + 1,
+				mm:   pad(m + 1),
+				mmm:  dF.i18n.monthNames[m],
+				mmmm: dF.i18n.monthNames[m + 12],
+				mmmmm: dF.i18n.monthNamesAlt[m + 12],
+				yy:   String(y).slice(2),
+				yyyy: y,
+				h:    H % 12 || 12,
+				hh:   pad(H % 12 || 12),
+				H:    H,
+				HH:   pad(H),
+				M:    M,
+				MM:   pad(M),
+				s:    s,
+				ss:   pad(s),
+				l:    pad(L, 3),
+				L:    pad(L > 99 ? Math.round(L / 10) : L),
+				t:    H < 12 ? "a"  : "p",
+				tt:   H < 12 ? "am" : "pm",
+				T:    H < 12 ? "A"  : "P",
+				TT:   H < 12 ? "AM" : "PM",
+				Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+				o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+				S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+			};
+
+		return mask.replace(token, function ($0) {
+			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+		});
+	};
+}();
+
+// Some common format strings
+dateFormat.masks = {
+	"default":      "ddd mmm dd yyyy HH:MM:ss",
+	shortDate:      "m/d/yy",
+	mediumDate:     "mmm d, yyyy",
+	longDate:       "mmmm d, yyyy",
+	fullDate:       "dddd, mmmm d, yyyy",
+	shortTime:      "h:MM TT",
+	mediumTime:     "h:MM:ss TT",
+	longTime:       "h:MM:ss TT Z",
+	isoDate:        "yyyy-mm-dd",
+	isoTime:        "HH:MM:ss",
+	isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+	isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+};
+
+// Internationalization strings
+dateFormat.i18n = {
+	dayNames: [
+		"Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб",
+		"Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"
+	],
+	monthNames: [
+		"Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек",
+		"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+	],
+	monthNamesAlt: [
+		"Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек",
+		"Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
+	]
+};
+
+// For convenience...
+Date.prototype.format = function (mask, utc) {
+	return dateFormat(this, mask, utc);
+};
+
+function word(number, words, no_number) {
+	if (typeof no_number == 'undefined') no_number = false;
+	var n = number % 100;
+	var ending = words[2];
+    if (n<11 || n>19) {
+    	n = n % 10;
+    }    
+    if (n == 1) ending = words[0];
+    else if (n < 5 && n != 0) ending = words[1];
+    else ending = words[2];
+    return no_number ? ending : number+' '+ending;
+}
+
+function dropHide(){
+	$(".b-formfield_select_list").fadeOut(200);
+	$(".b-formfield").removeClass("b-formfield_active");
+}
+
+$(document).ready(function () {
+	//global bindings
+	$("#nightsMin").keyup(function(){
+		$("#nightsMax").val($(this).val());
+	});
+
+	//close popup
+	$('.b-popup_close').click(function () {
+		dropHide();
+		$('.b-popup').fadeOut(333);
+		$('.b-calendar_week_day_selected').removeClass('b-calendar_week_day_selected');
+		return false;
+	});
+	
+	//selects
+	$('.b-popup_content_form_from select').change(function () {
+		$('.b-calendar_week_day_flight_from').text($(this).val());
+	});
+
+	$('.b-popup_content_form_to select').change(function () {
+		$('.b-calendar_week_day_flight_to').text($(this).val());
+	});
+
+
+	$('.b-formfield input').focus(function () {
+		$(this).parent().addClass('b-formfield_focus');
+	}).blur(function () {
+		$(this).parent().removeClass('b-formfield_focus');
+	});
+	
+
+	//comboboxes
+	if ($(".b-formfield_select").length) {
+		var fdrop = $('<div class="b-formfield_select_list"><ul></ul></div>').appendTo("body"),
+			fdrop_back = fdrop,
+			fdrop_i = $("UL", fdrop);
+
+		$(".b-formfield_select").each(function(){
+			var o = $(this),
+				head = $(".b-formfield_select_content", this),
+				items = $("OPTION", this);
+
+			head.text(items.filter(":selected").text());
+
+			$(this).bind('change',function(){
+				items = $("OPTION", this);
+				head.text(items.filter(":selected").text());
+			});
+		
+			o.click(function(){
+				if (o.parent().hasClass("b-formfield_active")) {
+					dropHide();
+				}
+				else {
+					o.parent().addClass("b-formfield_active")
+					fdrop_i.html("");
+					items.each(function(){
+						if (this.selected) {
+							$('<li class="b-formfield_select_list_selected">'+$(this).text()+'</li>').appendTo(fdrop_i);
+						}
+						else {
+							$('<li>'+$(this).text()+'</li>').appendTo(fdrop_i);
+						}					
+					});
+					
+					$("LI", fdrop_i).click(function(){
+						var li = $(this);
+						if (!li.hasClass("b-formfield_select_list_selected")) {
+							li.addClass("b-formfield_select_list_selected").siblings(".b-formfield_select_list_selected").removeClass("b-formfield_select_list_selected");
+							items.removeAttr('selected');
+							items.eq(li.prevAll().length).attr("selected", "selected");
+							o.change();
+							o.find('select').change();
+							head.text($(this).text());
+						}
+						dropHide();
+						return false;
+					});
+   
+					fdrop.css({left:0,top:0}).show().css({
+						left: o.parent().offset().left,
+						top: o.offset().top + o.outerHeight() - fdrop.offset().top,
+						width: o.parent().width()
+					});
+
+				}
+				
+				return false;
+			});
+		});
+		$(document).click(dropHide);
+	}
+
+	$('.js-field_count').blur(function(e){
+		var val = Math.abs(parseInt($(this).val()));
+		if (!val) val = $(this).data('prev-val');
+		$(this).data('prev-val',val);
+		$(this).val(val);
+	}).each(function(){
+		$(this).data('prev-val',$(this).val());
+		$(this).blur();
+	});
+	
+	/* labels for input fields */
+	$('input', '.b-card_personal_data').each(function (i, e) {
+		$(e).attr('id', 'field' + i);
+		switch (e.type) {
+			case 'checkbox':
+				$(e).parent('label').attr('for', 'field' + i);
+			break;
+			case 'text':
+				$(e).parent().siblings('label').attr('for', 'field' + i);
+			break;
+		}
+	});
+	
+
+	
+	/* search stars */
+	$('.b-search_form_filters_stars').click(function (e) {
+		var e = event ? event : e;
+		var value = Math.ceil(e.offsetX / ($(this).innerWidth() / 5));
+		var old = $(this).attr('value');
+		if ($(this).hasClass('b-search_form_filters_stars_start')) {
+			var max = parseInt($(this).siblings('.b-search_form_filters_stars_end').attr('value'));
+			value = value > max ? max : value;
+		} else {
+			var min = parseInt($(this).siblings('.b-search_form_filters_stars_start').attr('value'));
+			value = value < min ? min : value;
+		}
+		$(this).attr('value', value).find('.b-search_form_filters_stars_' + old).removeClass('b-search_form_filters_stars_' + old).addClass('b-search_form_filters_stars_' + value);
+		$(this).trigger('change');
+	});
+	
+	/* price inputs and slider */
+	if ($('.b-search_form_filters_price input').length) {
+		document.minPrice = 0;
+		document.maxPrice = 200000;
+
+		$('.b-search_form_filters_price input').change(function () {
+			var value = parseInt($(this).val()) || 0;
+			if ($(this).parent().hasClass('b-search_form_filters_price_start')) {
+				var max = parseInt($(this).closest('dd').find('.b-search_form_filters_price_end input').val());
+				value = value > max ? max : value;
+			} else {
+				var min = parseInt($(this).closest('dd').find('.b-search_form_filters_price_start input').val());
+				value = value < min ? min : value;
+			}
+			value = value < document.minPrice0 ? document.minPrice : value > document.maxPrice ? document.maxPrice : value;
+			$(this).val(value);
+			
+			$('.b-search_form_filters_price_range').slider('values', 0, $('.b-search_form_filters_price_start input').val());
+			$('.b-search_form_filters_price_range').slider('values', 1, $('.b-search_form_filters_price_end input').val());
+			
+			$('.b-search_form_filters_price_range_item_start span').text($('.b-search_form_filters_price_start input').val());
+			$('.b-search_form_filters_price_range_item_end span').text($('.b-search_form_filters_price_end input').val());
+		});
+		
+		$('.b-search_form_filters_price_range').slider({
+			range: true,
+			min: document.minPrice,
+			max: document.maxPrice,
+			values: [$('.b-search_form_filters_price_start input').val(), $('.b-search_form_filters_price_end input').val()],
+			slide: function( event, ui ) {
+				$('.b-search_form_filters_price_start input').val(ui.values[0]).change();
+				$('.b-search_form_filters_price_end input').val(ui.values[1]).change();
+				
+				$('.b-search_form_filters_price_range_item_start span').text(ui.values[0]);
+				$('.b-search_form_filters_price_range_item_end span').text(ui.values[1]);
+			}
+		});
+		$('.ui-slider-handle').eq(0).addClass('b-search_form_filters_price_range_item b-search_form_filters_price_range_item_start').html('<span class="b-search_form_filters_price_range_item_value">' + $('.b-search_form_filters_price_start input').val() + '</span><i></i>');
+		$('.ui-slider-handle').eq(1).addClass('b-search_form_filters_price_range_item b-search_form_filters_price_range_item_end').html('<span class="b-search_form_filters_price_range_item_value">' + $('.b-search_form_filters_price_end input').val() + '</span><i></i>');
+	};
+
+	//change word when enter integer value
+	$("[data-numbering-to]").change(function(){
+		$($(this).attr("data-numbering-to")).text(word($(this).val(),$(this).data("words"),true));
+	});
+});
+
+
+
+
+
+
+
+
+

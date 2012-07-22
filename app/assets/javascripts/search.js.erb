@@ -1,0 +1,344 @@
+$(function(){
+	/* radio buttons sex*/
+	$('.b-card_personal_data_item', '.b-card_personal_data_sex').live('click',function () {
+		if ($(this).hasClass('b-card_personal_data_item_selected')) {
+			return;
+		}
+		$(this).closest('.b-card_personal_data_sex').find('.b-card_personal_data_item_selected').removeClass('b-card_personal_data_item_selected');
+		$(this).addClass('b-card_personal_data_item_selected');
+	});
+	
+	/* radio buttons flight types*/
+	$('.b-card_flight_data_item', '.b-card_flight_data_block').live('click',function () {
+		if ($(this).hasClass('b-card_flight_data_item_selected') || $(this).hasClass('b-card_flight_data_item_disabled')) {
+			return;
+		}
+		$(this).closest('.b-card_flight_data_block').find('.b-card_flight_data_item_selected').removeClass('b-card_flight_data_item_selected');
+		$(this).addClass('b-card_flight_data_item_selected');
+	});
+
+	/* search edit */
+	$('.b-search_form_direction_edit_button').click(function () {
+		$('.b-search_form_filters, .b-search_form_direction').slideUp(333);
+		$('.b-search_form_set').slideDown(333);
+		return false;
+	});
+
+	$('.b-search_form_set_cancel').click(function () {
+		$('.b-search_form_filters, .b-search_form_direction').slideDown(333);
+		$('.b-search_form_set').slideUp(333);
+		return false;
+	});
+
+	$("#date-text").datepicker({dateFormat: 'mm.dd.yy'});
+
+	$("#date-text").change(function(){
+		var date = Date.parse($("#date-text").val());
+		$("#date-text").val(new Date(date).format('d mmmmm'));
+		$("#date-before").val(new Date(date+3*24*3600*1000).format('dd.mm.yyyy'));
+		$("#date-after").val(new Date(date-3*24*3600*1000).format('dd.mm.yyyy'));
+	});
+
+	//show and hide tour form
+	$('.b-search_result_item .b-search_result_col').live('click',function () {
+		var obj = $(this).parent('.b-search_result_item');
+		var form = $('.b-search_result_item_form');
+
+		var showForm = function(){
+			console.log(formCreator.create(obj.data('tour')));
+			formCreator.create(obj.data('tour')).slideDown(333, function () {
+				$('body').stop().animate({scrollTop: $(obj).offset().top}, 1666, 'easeInOutExpo');
+			});
+		}
+		
+		if ($(obj).hasClass('b-search_result_item_selected')) {
+			$(form).slideUp(333, function () {
+				$(obj).removeClass('b-search_result_item_selected');
+			});
+		} else {
+			if ($('.b-search_result_item_selected').length) {
+				$(form).slideUp(333, function () {
+					$('.b-search_result_item_selected').removeClass('b-search_result_item_selected');
+					$(obj).append(form).addClass('b-search_result_item_selected');
+					showForm();
+				});
+			} else {
+				$(obj).append(form).addClass('b-search_result_item_selected');
+				showForm();
+				
+			}
+		}
+	});
+
+	$("#reserve-form").on('submit',function(){
+		$.post('<%= MarlinSearcher::Application.routes.url_helpers.reserve_path%>',$(this).serialize(),function(data){
+			if (data.reserved) {
+				$("<div class='b-search_result_no_results' id='thanks'>Спасибо! Наш менеджер свяжется с вами в ближайшее время.</div>").insertAfter('.b-search_result_item_form');
+				$('.b-search_result_item_form').hide();
+				setTimeout(function(){
+					$("#thanks").animate({opacity: 0, height: 0},333,function(){
+						$(this).remove();
+						$(".b-search_result_item_selected").removeClass('b-search_result_item_selected');
+					});
+				},2000)
+			}
+		},'json');
+		return false;
+	});
+});
+
+
+var Searcher = function(params){	
+	var no_new_tours = false;
+	var self = this;
+
+	this.filter = (function(){
+		var f = {
+			price: [0,999999],
+			stars: [0,5],
+			food: ''
+		};
+		var visibleCount = 10;
+		var applyTimeout = null;
+		var updateMoreButton = function(more){
+			if (more == 0) {
+				$("#more").fadeOut();
+			}
+			else {
+				$("#more").fadeIn();
+				var newValue = Math.min(more,10) +' туров';
+				if (more == 1) {
+					newValue = '1 тур';
+				}
+				else if (more < 5) {
+					newValue = more +' тура'
+				}
+				$("#more").text('Показать еще '+newValue);	
+			}
+		}
+		var applyFilter = function(){
+			var showed = 0;
+			var more = 0;
+			$(".b-search_result_item").each(function(){
+				var accepted = true;
+				for (var key in f) {
+					var attr = $(this).attr('data-'+key);
+					if (typeof f[key] == 'object') {
+						if (attr < f[key][0] || attr > f[key][1]) accepted = false;
+					}
+					else {
+						if (attr != f[key] && f[key] != '') accepted = false;
+					}
+				}
+				if (!accepted) {
+					$(this).animate({opacity: 0, height: 0},500,function(){$(this).hide();});
+				}
+				else if (showed >= visibleCount) {
+					more++;
+				}
+				else {
+					showed++;
+					if ($(this).is(':hidden')) {
+						$(this).css({opacity: 0, height: 0}).show().animate({opacity:1, height: '57px'},500,function(){
+							$(this).css('height','auto');
+						});
+					}
+				}
+			});
+			updateMoreButton(more);
+			if ((more < 10 || $(".b-search_result_item:visible").length < 10) && !no_new_tours) {
+				//fix speed when many elements loaded
+				var newPrice = parseInt($(".b-search_result_item:last").attr('data-price'))+1;
+				if (newPrice <= f.price[1]) loadTours(newPrice);
+			}
+		};
+		var deferredApplyFilter = function(){
+			visibleCount = 10;
+			clearTimeout(applyTimeout);
+			applyTimeout = setTimeout(applyFilter,200);
+		};
+		$("#filter-price-start").bind('change',function(){f.price[0] = parseInt($(this).val()); deferredApplyFilter();});
+		$("#filter-price-end").bind('change',function(){f.price[1] = parseInt($(this).val()); deferredApplyFilter();});
+		$("#filter-stars-from").bind('change',function(){f.stars[0] = $(this).attr('value'); applyFilter();});
+		$("#filter-stars-to").bind('change',function(){f.stars[1] = $(this).attr('value'); applyFilter();});
+		$("#filter-food").bind('change',function(){f.food = $(this).find('option:selected').val(); applyFilter();});
+		return {
+			next: function(){
+				visibleCount += 10;
+				applyFilter();
+			},
+			apply: function(){
+				applyFilter();
+			}
+		}
+	})();
+
+
+	//Temlate for tour
+	var tourTemplate = function(tour) {
+		//one tour is array. See http://xml.teztour.com/XML_JSON_TS.html
+		var hotel = /(.*?)(\d[\+\s]*)\*$/.exec(tour[6]);
+		if (hotel == null) {
+			hotel = ['',tour[6],3]
+		}
+		hotel[2] = parseInt(hotel[2]);
+		var date = tour[1].split('.');
+		date = date[1]+'.'+date[0]+'.'+date[2];
+		date = new Date(Date.parse(date)).format('d mmmmm yyyy')
+		return '<div class="b-search_result_item" data-stars="'+hotel[2]+'" data-price="'+parseInt(tour[16])+'" data-food="'+tour[14]+'">'+
+					'<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">'+
+						'<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars'+hotel[2]+'"></i></span>'+
+						'<span class="b-search_result_item_hotel_name">'+hotel[1]+'</span>'+
+					'</div>'+
+					'<div class="b-search_result_col b-search_result_col2 b-search_result_item_resort">'+tour[10]+'</div>'+
+					'<div class="b-search_result_col b-search_result_col3 b-search_result_item_date">'+date+'</div>'+
+					'<div class="b-search_result_col b-search_result_col4 b-search_result_item_food">'+tour[14]+'</div>'+
+					'<div class="b-search_result_col b-search_result_col5 b-search_result_item_price">'+tour[16]+'</div>'+
+					'<div class="b-search_result_item_border"></div>'+
+				'</div>';
+	};
+
+	var loadTours = function(priceMin){
+		params.priceMin = priceMin;
+		$.ajax({
+			dataType: 'jsonp',
+			url: 'http://search.teztour.com/toursearch/getResult',
+			type: 'get',
+			data: params,
+			success: function(data){
+				if (!data.data || data.data.length == 0) {
+					if (priceMin == 0) {
+						no_new_tours = true;
+						$("<div class='b-search_result_no_results'>Ничего не найдено. Попробуйте изменить запрос</div>").appendTo("#results");
+					}
+					return false;
+				}	
+				var foods = $("#filter-food").html();
+				$.each(data.data,function(i, tour){
+					if (foods.indexOf(tour[14]) == -1) foods += '<option value="'+tour[14]+'">'+tour[14]+'</option>';
+					$(tourTemplate(tour)).appendTo("#results").data('tour',tour).hide();
+				});
+				$("#filter-food").html(foods).change();
+				self.filter.apply();
+			},
+			error: function(){
+				//api error
+			}
+		});	
+	}
+	loadTours(0);
+	$("#more").hide();
+};
+
+var formCreator = (function(){
+	var touristTpl = function(i){
+		return '<div class="b-card_personal_data">'+
+				'<div class="b-card_personal_data_sex">'+
+					'<span class="b-card_personal_data_caption">Пол</span>'+
+					'<label class="b-card_personal_data_item b-card_personal_data_item_selected" title="Мужской">'+
+						'<i class="b-card_personal_data_icon b-card_personal_data_icon_male"></i>'+
+						'<input checked="checked" class="b-card_personal_data_field" type="radio" name="users['+i+'][sex]" value="male" />'+
+						'<span class="b-card_personal_data_value">Мужской</span>'+
+					'</label>'+
+					'<label class="b-card_personal_data_item" title="Женский">'+
+						'<i class="b-card_personal_data_icon b-card_personal_data_icon_female"></i>'+
+						'<input class="b-card_personal_data_field" type="radio" name="users['+i+'][sex]" value="female" />'+
+						'<span class="b-card_personal_data_value">Женский</span>'+
+					'</label>'+
+				'</div>'+
+				'<div class="b-card_personal_data_name">'+
+					'<label class="b-card_personal_data_caption">Имя и фамилия</label>'+
+					'<label class="b-card_personal_data_notice">латинскими буквами</label>'+
+					'<span class="b-formfield"><input class="b-card_personal_data_field" type="text" value="" name="users['+i+'][name]" /></span>'+
+				'</div>'+
+				'<div class="b-card_personal_data_passport">'+
+					'<label class="b-card_personal_data_caption">Загранпаспорт</label>'+
+					'<label class="b-card_personal_data_notice">серия и номер</label>'+
+					'<span class="b-formfield"><input class="b-card_personal_data_field" type="text" value="" name="users['+i+'][passport]" /></span>'+
+				'</div>'+
+				'<div class="b-card_personal_data_phone">'+
+					'<label class="b-card_personal_data_caption">Телефон</label>'+
+					'<label class="b-card_personal_data_notice">+7 111 222 33 44</label>'+
+					'<span class="b-formfield"><input class="b-card_personal_data_field" type="tel" value="" name="users['+i+'][phone]" /></span>'+
+				'</div>'+
+				'<div class="b-card_personal_data_email">'+
+					'<label class="b-card_personal_data_caption">Электронная почта</label>'+
+					'<label class="b-card_personal_data_notice">givemetotrip@rozovymarlin.ru</label>'+
+					'<span class="b-formfield"><input class="b-card_personal_data_field" type="email" value="" name="users['+i+'][email]" /></span>'+
+				'</div>'+
+			'</div>';
+	};
+	var ticketsInfoTpl = function(data,name){
+		var count = data['count'];
+		if (count == 'Many' || count == 'Available') count = 'Много'
+		else if (count == 'Few') count = 'Мало'
+		else if (count == 'No') count = 'Нет'
+		else count = word(count, ['билет','билета','билетов']);
+
+		if (data['plus']) count += '<br />' + data['plus'];
+		var klass = 'b-card_flight_data_item';
+		if (data['count'] == 'No') klass+= ' b-card_flight_data_item_disabled';
+		return '<label class="'+klass+'" title="'+data['title']+'">'+
+			'<input class="b-card_flight_data_field" type="radio" name="flight['+name+']" value="'+data['title']+'" />'+
+			'<span class="b-card_flight_data_icon"></span>'+
+			'<span class="b-card_flight_data_value">'+data['title']+'</span>'+
+			'<span class="b-card_flight_data_notice">'+count+'</span>'+
+		'</label>';
+	};
+	var applyTouristsCount = function(count){
+		$(".b-card_personal_data").remove();
+		var html = '';
+		for (var i=0;i<count;i++) {
+			html += touristTpl(i);
+		}
+		$(html).insertAfter('#form-tourists-data');
+		$('.b-formfield .b-card_personal_data_field').change(function () {
+			if ($(this).val()) {
+				$(this).parent().siblings('.b-card_personal_data_caption').hide();
+			} else {
+				$(this).parent().siblings('.b-card_personal_data_caption').show();
+			}
+		}).blur(function () {
+			if (!$(this).val()) {
+				$(this).parent().siblings('.b-card_personal_data_caption').show();
+			}
+		}).keyup(function () {
+			if ($(this).val()) {
+				$(this).parent().siblings('.b-card_personal_data_caption').hide();
+			} else {
+				$(this).parent().siblings('.b-card_personal_data_caption').show();
+			}
+		}).change();
+	};
+	var applyTicketsInfo = function(tour){
+		$(".b-card_flight_data_item").remove();
+		var tmp = [
+			{title: 'Эконом', count: tour[19], plus: tour[23]},
+			{title: 'Премиум', count: tour[20], plus: tour[24]},
+			{title: 'Бизнес', count: tour[21], plus: tour[25]},
+			{title: 'Первый', count: tour[22], plus: tour[26]}
+		];
+		for (var i in tmp) {
+			$(ticketsInfoTpl(tmp[i],'first')).appendTo('.b-card_flight_data_first');
+		}
+		tmp = [
+			{title: 'Эконом', count: tour[27], plus: tour[31]},
+			{title: 'Премиум', count: tour[28], plus: tour[32]},
+			{title: 'Бизнес', count: tour[29], plus: tour[33]},
+			{title: 'Первый', count: tour[30], plus: tour[34]}
+		];
+		for (var i in tmp) {
+			$(ticketsInfoTpl(tmp[i],'second')).appendTo('.b-card_flight_data_second');
+		}
+		$(".b-card_flight_data_first .b-card_flight_data_item:not(.b-card_flight_data_item_disabled):first").click();
+		$(".b-card_flight_data_second .b-card_flight_data_item:not(.b-card_flight_data_item_disabled):first").click();
+	};
+	return {
+		count: 0,
+		create: function(tour) {
+			applyTouristsCount(this.count);
+			applyTicketsInfo(tour)
+			return $('.b-search_result_item_form');;
+		}
+	}
+})();
