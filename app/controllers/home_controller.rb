@@ -33,7 +33,7 @@ class HomeController < ActionController::Base
 
 
   def new_session
-    render :login
+    render :login, :layout => nil
   end
 
   def create_session
@@ -41,7 +41,7 @@ class HomeController < ActionController::Base
       cookies[:code] = params[:code]
       redirect_to root_path
     else
-      render :login
+      render :login, :layout => nil
     end
   end
 

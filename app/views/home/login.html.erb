@@ -1,11 +1,111 @@
-<div style="height: 300px;"></div>
-<div class="b-popup" style="">
-  <div class="b-popup_content">
-    <form class="b-popup_content_form" method="post" action="<%=login_path%>">
-      <div class="b-popup_content_form_fieldset">
-      	<p style="text-align: center;">В данный момент доступ к сайту осуществляется только по промо-кодам. Введите промо-код:</p>
-        <input type="text" name="code" style="width: 387px; font-size: 20px;">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Интернет-магазин путешествий Розовый Марлин</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: white;
+  background: black;
+  min-width: 960px;
+  margin: 0;
+  padding: 0;
+}
+
+a {border: 0; outline: 0;}
+
+.wrapper {width: 720px; margin: 0 auto;}
+
+.logo {
+  text-align: center;
+  padding-top: 40px;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.logo a {
+  display: block;
+  text-indent: -9999em;
+  width: 200px;
+  height: 110px;
+  background: url(<%=asset_path('login/logo.png')%>) no-repeat;
+}
+
+.promoform {padding-top: 200px;}
+
+.promoform p {
+  display: block;
+  text-indent: -9999em;
+  width: 182px;
+  height: 20px;
+  background: url(<%=asset_path('login/text.png')%>) no-repeat;
+  margin: 0;
+  padding: 0;
+}
+
+.promoform #promocode {
+  width: 519px;
+  height: 70px;
+  background: url(<%=asset_path('login/field.png')%>) no-repeat;
+  border: 0;
+  outline: 0;
+  padding: 0 12px;
+  font-size: 32px;
+  font-style: italic;
+  color: #80807f;
+  vertical-align: middle;
+  line-height: 70px;
+}
+
+.promoform #submitcode {
+  width: 169px;
+  height: 70px;
+  background: url(<%=asset_path('login/button.png')%>) no-repeat;
+  border: 0;
+  outline: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+  </style>
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+/*
+ * jQuery Backstretch
+ * Version 1.2.7
+ * http://srobbin.com/jquery-plugins/jquery-backstretch/
+ *
+ * Add a dynamically-resized background image to the page
+ *
+ * Copyright (c) 2012 Scott Robbin (srobbin.com)
+ * Licensed under the MIT license
+ * https://raw.github.com/srobbin/jquery-backstretch/master/LICENSE.txt
+ * 
+*/
+;(function(a){a.backstretch=function(p,b,l){function s(){if(p){var b;0==c.length?c=a("<div />").attr("id","backstretch").css({left:0,top:0,position:m?"fixed":"absolute",overflow:"hidden",zIndex:-999999,margin:0,padding:0,height:"100%",width:"100%"}):c.find("img").addClass("deleteable");b=a("<img />").css({position:"absolute",display:"none",margin:0,padding:0,border:"none",zIndex:-999999}).bind("load",function(d){var b=a(this),e;b.css({width:"auto",height:"auto"});e=this.width||a(d.target).width();d=this.height||a(d.target).height();n=e/d;q();b.fadeIn(g.speed,function(){c.find(".deleteable").remove();"function"==typeof l&&l()})}).appendTo(c);0==a("body #backstretch").length&&(0===a(window).scrollTop()&&window.scrollTo(0,0),a("body").append(c));c.data("settings",g);b.attr("src",p);a(window).unbind("resize.backstretch").bind("resize.backstretch",function(){"onorientationchange"in window&&window.pageYOffset===0&&window.scrollTo(0,1);q()})}}function q(){try{j={left:0,top:0},rootWidth=h=o.width(),rootHeight=r?window.innerHeight:o.height(),f=h/n,f>=rootHeight?(k=(f-rootHeight)/2,g.centeredY&&(j.top="-"+k+"px")):(f=rootHeight,h=f*n,k=(h-rootWidth)/2,g.centeredX&&(j.left="-"+k+"px")),c.css({width:rootWidth,height:rootHeight}).find("img:not(.deleteable)").css({width:h,height:f}).css(j)}catch(a){}}var t={centeredX:!0,centeredY:!0,speed:0},c=a("#backstretch"),g=c.data("settings")||t;c.data("settings");var o,m,r,n,h,f,k,j;b&&"object"==typeof b&&a.extend(g,b);b&&"function"==typeof b&&(l=b);a(document).ready(function(){var b=window,d=navigator.userAgent,c=navigator.platform,e=d.match(/AppleWebKit\/([0-9]+)/),e=!!e&&e[1],f=d.match(/Fennec\/([0-9]+)/),f=!!f&&f[1],g=d.match(/Opera Mobi\/([0-9]+)/),h=!!g&&g[1],i=d.match(/MSIE ([0-9]+)/),i=!!i&&i[1];o=(m=!((-1<c.indexOf("iPhone")||-1<c.indexOf("iPad")||-1<c.indexOf("iPod"))&&e&&534>e||b.operamini&&"[object OperaMini]"==={}.toString.call(b.operamini)||g&&7458>h||-1<d.indexOf("Android")&&e&&533>e||f&&6>f||"palmGetResource"in window&&e&&534>e||-1<d.indexOf("MeeGo")&&-1<d.indexOf("NokiaBrowser/8.5.0")||i&&6>=i))?a(window):a(document);r=m&&window.innerHeight;s()});return this}})(jQuery);
+  </script>
+  </head>
+  <body>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $.backstretch('<%=asset_path('login/bg.jpg')%>');
+    });
+    </script>
+    <div class="wrapper">
+      <div class="logo">
+        <a href="http://shop.rozovymarlin.ru/">Интернет-магазин путешествий Розовый Марлин</a>
       </div>
-    </form>
-  </div>
-</div>
+      <div class="promoform">
+        <form action="<%=create_session_path%>" method="post">
+          <p>введите промо-код</p>
+          <input type="text" value="" name="code" id="promocode" />
+          <input type="submit" value="" id="submitcode" />
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
