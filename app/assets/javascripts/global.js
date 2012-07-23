@@ -471,7 +471,7 @@ $(document).ready(function () {
 	//change word when enter integer value
 	$("[data-numbering-to]").change(function(){
 		$($(this).attr("data-numbering-to")).text(word($(this).val(),$(this).data("words"),true));
-	});
+	}).change();
 });
 
 

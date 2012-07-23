@@ -1,6 +1,6 @@
 <div class="b-search">
 	<div class="b-search_form">
-		<form class="b-search_form_set" action="">
+		<form class="b-search_form_set" action="" method="post">
 			<span class="b-formfield b-popup_content_form_from">
 				<span class="b-formfield_select">
 					<select name="cityId">
@@ -139,14 +139,7 @@
 <script type="text/javascript">
 $(function(){
 	var accommodations = <%=@accommodations.to_json.html_safe%>;
-	//parse query string and make params object
-	var query = window.location.search.substring(1);
-	var vars = query.split("&");
-	var params = {};
-	for (var i = 0; i < vars.length; i++) {
-		var p =vars[i].split("=");
-		params[p[0]] = p[1];
-	}
+	var params = <%=params.to_json.html_safe%>;
 	//select accomodation id
 	$.each(accommodations,function(i,e){
 		if (e.child == params.child && e.adult == params.adult) {
