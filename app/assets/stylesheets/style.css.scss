@@ -1586,6 +1586,9 @@ input {
   cursor: text;
   color: #ABB7C4; }
 
+.invalid .b-card_personal_data_caption, .invalid input {
+  color: #f6666e;
+}
 .ie7 .b-card_personal_data_caption {
   top: 13px;
   zoom: 1;

@@ -69,7 +69,44 @@ $(function(){
 		}
 	});
 
+	$("#reserve-form input").live('keyup',function(){
+		$(this).closest('.invalid').removeClass('invalid');
+	});
+
 	$("#reserve-form").on('submit',function(){
+		var valid = true;
+		var errors = [];
+		$('.b-card_personal_data_name input',this).each(function(i,e){
+			if (!(/^[\sa-zA-Z]+$/.test($.trim($(e).val())))) {
+				valid = false; 
+				$(e).closest('.b-card_personal_data_name').addClass('invalid');
+			}
+			else $(e).closest('.b-card_personal_data_name').removeClass('invalid');
+		});
+		$('.b-card_personal_data_passport input',this).each(function(i,e){
+			if (!(/^[\d\s№#]+$/.test($.trim($(e).val())))) {
+				valid = false; 
+				$(e).closest('.b-card_personal_data_passport').addClass('invalid');
+			}
+			else $(e).closest('.b-card_personal_data_passport').removeClass('invalid');
+		});
+		if ($(".b-card_personal_data_phone input[value!='']",this).length == 0) {
+			$(".b-card_personal_data_phone input:first").closest('.b-card_personal_data_phone').addClass('invalid');
+			valid = false;
+		}
+
+		if ($(".b-card_personal_data_email input[value!='']",this).length == 0) {
+			$(".b-card_personal_data_email input:first").closest('.b-card_personal_data_email').addClass('invalid');
+			valid = false;
+		}
+		$(".b-card_personal_data_email input[value!='']", this).each(function(i, e){
+			if (!(/^.+@.+\..+$/.test($.trim($(e).val())))) {
+				valid = false; 
+				$(e).closest('.b-card_personal_data_email').addClass('invalid');
+			}
+			else $(e).closest('.b-card_personal_data_email').removeClass('invalid');
+		});
+		if (!valid) return false;
 		$.post('<%= MarlinSearcher::Application.routes.url_helpers.reserve_path%>',$(this).serialize(),function(data){
 			if (data.reserved) {
 				$("<div class='b-search_result_no_results' id='thanks'>Спасибо! Наш менеджер свяжется с вами в ближайшее время.</div>").insertAfter('.b-search_result_item_form');
@@ -362,6 +399,19 @@ var formCreator = (function(){
 			applyTouristsCount(this.count);
 			applyTicketsInfo(tour);
 			applyTourInfo(tour);
+			$('input', '.b-card_personal_data').each(function (i, e) {
+				$(e).attr('id', 'field' + i);
+				switch (e.type) {
+					case 'checkbox':
+						$(e).parent('label').attr('for', 'field' + i);
+					break;
+					case 'text':
+					case 'email':
+					case 'tel':
+						$(e).parent().siblings('label').attr('for', 'field' + i);
+					break;
+				}
+			});
 			return $('.b-search_result_item_form');;
 		}
 	}

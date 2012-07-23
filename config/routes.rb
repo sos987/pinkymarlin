@@ -56,6 +56,9 @@ MarlinSearcher::Application.routes.draw do
   match 'search' => 'home#search', :as => :search
   post 'reserve' => 'home#reserve', :as => :reserve
 
+  get 'login' => 'home#new_session', :as => :login
+  post 'login' => 'home#create_session', :as => :create_session
+
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

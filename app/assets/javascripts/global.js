@@ -410,21 +410,7 @@ $(document).ready(function () {
 		$(this).blur();
 	});
 	
-	/* labels for input fields */
-	$('input', '.b-card_personal_data').each(function (i, e) {
-		$(e).attr('id', 'field' + i);
-		switch (e.type) {
-			case 'checkbox':
-				$(e).parent('label').attr('for', 'field' + i);
-			break;
-			case 'text':
-				$(e).parent().siblings('label').attr('for', 'field' + i);
-			break;
-		}
-	});
-	
 
-	
 	/* search stars */
 	$('.b-search_form_filters_stars').click(function (e) {
 		var e = event ? event : e;
