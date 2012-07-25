@@ -34,6 +34,11 @@ $(function(){
 
 	$("#date-text").change(function(){
 		var date = Date.parse($("#date-text").val());
+		if (isNaN(date)) {
+			date = $("#date-text").val().split('.');
+			date = new Date(date[2],date[0]-1,date[1]).getTime();
+
+		}
 		$("#date-text").val(new Date(date).format('d mmmmm'));
 		$("#date-before").val(new Date(date+3*24*3600*1000).format('dd.mm.yyyy'));
 		$("#date-after").val(new Date(date-3*24*3600*1000).format('dd.mm.yyyy'));
@@ -219,8 +224,8 @@ var Searcher = function(params){
 		}
 		hotel[2] = parseInt(hotel[2]);
 		var date = tour[1].split('.');
-		date = date[1]+'.'+date[0]+'.'+date[2];
-		date = new Date(Date.parse(date)).format('d mmmmm yyyy')
+		date = new Date(date[2],date[1]-1,date[0]);
+		date = new Date(date).format('d mmmmm yyyy')
 		return '<div class="b-search_result_item" data-stars="'+hotel[2]+'" data-price="'+parseInt(tour[16])+'" data-food="'+tour[14]+'">'+
 					'<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">'+
 						'<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars'+hotel[2]+'"></i></span>'+
