@@ -134,9 +134,9 @@ a {border: 0; outline: 0;}
   </script>
   <script type="text/javascript">
     function refresh() {
-      var rand = Math.floor((Math.random()*5)+1);
-      var path = '<%=asset_path('login/bg1.jpg')%>';
-      var bg = path.replace('1',rand);
+      var srcs = ['<%=asset_path('login/bg1.jpg')%>','<%=asset_path('login/bg2.jpg')%>','<%=asset_path('login/bg3.jpg')%>','<%=asset_path('login/bg4.jpg')%>','<%=asset_path('login/bg5.jpg')%>']
+      var rand = Math.floor((Math.random()*5));
+      var bg = srcs[rand];
       if(bg != $('#backstretch img').attr('src')) {
         $.backstretch(bg);
       } else {
