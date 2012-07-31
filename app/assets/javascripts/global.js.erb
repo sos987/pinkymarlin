@@ -308,6 +308,7 @@ function dropHide(){
 }
 
 $(document).ready(function () {
+	$.backstretch('<%= asset_path 'bg1.jpg'%>');
 	//global bindings
 	$("#nightsMin").keyup(function(){
 		$("#nightsMax").val($(this).val());
@@ -475,10 +476,8 @@ $(document).ready(function () {
 });
 
 
-
-
-
-
-
-
+function preload(){
+	$('.b-calendar, .b-special, .b-popup, .l-i-content h2, .b-about_content').fadeOut('slow');
+		$('.b-loader').fadeIn('slow');
+}
 

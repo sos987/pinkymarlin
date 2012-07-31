@@ -1,4 +1,3 @@
-<%=stylesheet_link_tag('http://code.jquery.com/ui/1.8.22/themes/base/jquery-ui.css')%>
 <div class="b-search">
 	<div class="b-search_form">
 		<form class="b-search_form_set" action="" method="post">
@@ -34,6 +33,42 @@
 			<label><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="<%=params[:adult]%>" name="adult" data-numbering-to="#fly-to-adult" data-words='["взрослый","взрослых","взрослых"]'/></span> <span id="fly-to-adult">взрослых</span></label>
 			<label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="<%=params[:child]%>" name="child" data-numbering-to="#fly-to-childs" data-words='["ребенок","ребенка","детей"]'/></span> <span id="fly-to-childs">детей</span></label>
 			
+		<div class="b-search_form_filters">
+			<dl class="b-search_form_filters_item">
+				<dt>Стоимость</dt>
+				<dd>
+					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_start"><input type="text" value="10000" name="price_start" id="filter-price-start"/></span>
+					&mdash;
+					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_end"><input type="text" value="<%=params[:adult].to_i+params[:child].to_i <= 2 ? '80000' : '100000'%>" name="price_end" id="filter-price-end"/></span>
+					
+					<div class="b-search_form_filters_price_range"></div>
+				</dd>
+			</dl>
+			<dl class="b-search_form_filters_item">
+				<dt>Звездность</dt>
+				<dd class="b-search_form_filters_item_stars">
+					<span class="b-search_form_filters_stars b-search_form_filters_stars_start" value="1" id="filter-stars-from"><i class="b-search_form_filters_stars_1"></i></span>
+					&mdash;
+					<span class="b-search_form_filters_stars b-search_form_filters_stars_end" value="5" id="filter-stars-to"><i class="b-search_form_filters_stars_5"></i></span>
+				</dd>
+			</dl>
+			<dl class="b-search_form_filters_item">
+				<dt>Тип питания</dt>
+				<dd>
+					<span class="b-formfield b-search_form_filters_food">
+						<span class="b-formfield_select">
+							<select id="filter-food">
+								<option value="">Все возможные</option>
+							</select>
+							<span class="b-formfield_select_content"></span>
+							<span class="b-formfield_select_icon"><i></i></span>
+						</span>
+					</span>
+				</dd>
+			</dl>
+			<div class="clear"></div>
+		</div>
+
 			<%@default_params.each do |key,val|%>
 	          <input type="hidden" name="<%=key%>" value="<%=val%>">
 	        <%end%>
@@ -59,43 +94,6 @@
 			<div class="b-search_form_direction_edit">
 				<a href="#" class="b-search_form_direction_edit_button">изменить</a>
 			</div>
-		</div>
-		
-		<div class="b-search_form_filters">
-			<dl class="b-search_form_filters_item">
-				<dt>Стоимость</dt>
-				<dd>
-					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_start"><input type="text" value="10000" name="price_start" id="filter-price-start"/></span>
-					&mdash;
-					<span class="b-formfield b-search_form_filters_price b-search_form_filters_price_end"><input type="text" value="<%=params[:adult].to_i+params[:child].to_i <= 2 ? '80000' : '100000'%>" name="price_end" id="filter-price-end"/></span>
-					
-					<div class="b-search_form_filters_price_range"></div>
-				</dd>
-				
-			</dl>
-			<dl class="b-search_form_filters_item">
-				<dt>Звездность</dt>
-				<dd class="b-search_form_filters_item_stars"> 
-					<span class="b-search_form_filters_stars b-search_form_filters_stars_start" value="1" id="filter-stars-from"><i class="b-search_form_filters_stars_1"></i></span>
-					&mdash;
-					<span class="b-search_form_filters_stars b-search_form_filters_stars_end" value="5" id="filter-stars-to"><i class="b-search_form_filters_stars_5"></i></span>
-				</dd>
-			</dl>
-			<dl class="b-search_form_filters_item">
-				<dt>Тип питания</dt>
-				<dd>
-					<span class="b-formfield b-search_form_filters_food">
-						<span class="b-formfield_select">
-							<select id="filter-food">
-								<option value="">Все возможные</option>
-							</select>
-							<span class="b-formfield_select_content"></span>
-							<span class="b-formfield_select_icon"><i></i></span>
-						</span>
-					</span>
-				</dd>
-			</dl>
-			<div class="clear"></div>
 		</div>
 	</div>
 	<div class="b-search_result">
