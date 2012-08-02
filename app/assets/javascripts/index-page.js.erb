@@ -405,6 +405,7 @@ $(function(){
 	$("#search-form").submit(function(){
 		$('.b-calendar, .b-special, .b-popup, .l-i-content h2, .b-about_content, #search-block').fadeOut('slow');
 		$('.b-loader').fadeIn('slow');
+		$(".b-search_result_item_form").hide().appendTo('body');
 		$(".b-search_result_item").remove();
 		$(".b-search_result_no_results").remove();
 		var params = $(this).serializeArray();
