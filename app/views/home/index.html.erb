@@ -190,7 +190,7 @@
             <span class="b-formfield_select">
               <select id="filter-food" name="rAndBId">
                 <%TezTour.rAndBs.each do |rb|%>
-                <option value="<%=rb.rAndBId%>"><%=rb.name%></option>
+                <option value="<%=rb["rAndBId"]%>"><%=rb["name"]%></option>
                 <%end%>
               </select>
               <span class="b-formfield_select_content"></span>
