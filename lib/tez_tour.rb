@@ -22,15 +22,13 @@ module TezTour
 
 	def default_params
 		{
-		  	:priceMin => 0,
-		  	:priceMax => 999999,
 		  	:currency => 8390,
 		  	:noTicketsFrom => false,
 		  	:noTicketsTo => false
 	    }
 	end
 
-	def accommodations
+	def self.accommodations
 		[{
 	      "accommodationId" => 1,
 	      "name" => "1 Взрослый",
@@ -123,8 +121,12 @@ module TezTour
 	    }]
 	end
 
-	def rAndBs 
+	def self.rAndBs 
 		[{
+	      "rAndBId" => '',
+	      "name" => "Все возможные"
+	    },
+	    {
 	      "rAndBId" => 15350,
 	      "name" => "Размещение без питания",
 	      "weight" => 0

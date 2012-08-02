@@ -454,6 +454,7 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="number"]
     .b-search_result_header {color: #fff;font-size: 11px;line-height: 11px;background: rgba(237, 30, 121, .2);padding: 8px 0 11px;overflow: hidden;}
       .ie7 .b-search_result_header, .ie8 .b-search_result_header {background: url(<%= asset_path 'bg/ed1e79-0.20.png' %>);}
     .b-search_result_item {font-size: 16px;line-height: 18px;overflow: hidden;position: relative;}
+    .b-search_result_no_results {font-size: 16px;line-height: 18px;overflow: hidden;position: relative; background: rgba(255, 255, 255, .8); padding-top: 19px;padding-bottom: 24px; text-align: center; margin: 10px 0;}
       .ie7 .b-search_result_item, .ie8 .b-search_result_item {zoom: 1;}
       .b-search_result_item_border {background: url(<%= asset_path 'bg/sep.png' %>) repeat-x 0 0;height: 2px;width: 100%;position: absolute;bottom: 0;left: 0;} 
         .b-search_result_item:last-child .b-search_result_item_border {display: none;}
@@ -547,7 +548,7 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="number"]
         
     .b-search_result_more {display: block;background: rgba(255, 255, 255, .7);text-decoration: none;font-size: 18px;text-align: center;padding: 10px;color: #29364a;margin: 20px 0 0;}
       .ie7 .b-search_result_more, .ie8 .b-search_result_more {background:  url(<%= asset_path 'bg/ffffff-0.70.png' %>);}
-    
+    .invalid .b-card_personal_data_caption, .invalid input {color: #f6666e;}
       .b-search_result_more:hover {color: #29364a;}
 
 .b-card {font-size: 15px;padding: 15px 10px;}

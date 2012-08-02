@@ -10,4 +10,3 @@
 //= require backstretch
 //= require global
 //= require index-page
-//= require search

@@ -59,11 +59,11 @@
     <div class="b-popup_content">
       <div class="b-popup_content_date">14 июля 2012</div>
       <div class="b-popup_content_date_caption">с расчетом ± 3 дня</div>
-      <form class="b-popup_content_form" method="post" action="<%=search_path%>">
+      <form class="b-popup_content_form" id="popup-form" method="post" action="<%=search_path%>">
         <div class="b-popup_content_form_fieldset">
           <span class="b-formfield b-popup_content_form_from">
             <span class="b-formfield_select">
-              <select name="cityId">
+              <select name="cityId" id="popup-city">
                 <%City.all.each do |c|%>
                   <option value="<%=c.id%>"><%=c.name%></option>
                 <%end%>
@@ -75,7 +75,7 @@
           <i class="b-popup_content_form_direction"></i>
           <span class="b-formfield b-popup_content_form_to">
             <span class="b-formfield_select">
-              <select name="countryId">
+              <select name="countryId"  id="popup-country">
                 <%Country.all.each do |c|%>
                   <option value="<%=c.id%>"><%=c.name%></option>
                 <%end%>
@@ -86,17 +86,17 @@
           </span>
         </div>
         <div class="b-popup_content_form_fieldset">
-          <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightsMin" id="nightsMin" data-numbering-to="#fly-days" data-words='["день","дня","дней"]' /></span> <span id="fly-days">дней</span></label>
-          <input type="hidden" name="nightsMax" value="10" id="nightsMax">
-          <label class="b-popup_content_form_adult_label"><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" data-numbering-to="#fly-adults" data-words='["взрослый","взрослых","взрослых"]'/></span> <span id="fly-adults">взрослых</span></label>
-          <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="child" data-numbering-to="#fly-childs" data-words='["ребенок","ребенка","детей"]'/></span> <span id="fly-childs">детей</span></label>
+          <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" value="10" name="nightsMin" id="nightsMinPopup" data-numbering-to="#fly-days-popup" data-words='["день","дня","дней"]' /></span> <span id="fly-days-popup">дней</span></label>
+          <input type="hidden" name="nightsMax" value="10" id="nightsMaxPopup">
+          <label class="b-popup_content_form_adult_label"><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="2" name="adult" data-numbering-to="#fly-adults-popup" id="adults-popup" data-words='["взрослый","взрослых","взрослых"]'/></span> <span id="fly-adults-popup">взрослых</span></label>
+          <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="0" name="child"  id="childs-popup" data-numbering-to="#fly-childs-popup" data-words='["ребенок","ребенка","детей"]'/></span> <span id="fly-childs-popup">детей</span></label>
         </div>
         <div class="b-popup_content_form_fieldset b-popup_content_form_fieldset_center">
-          <a onclick="preload(); $(this).closest('form').submit();return false;" href="#" class="b-popup_content_form_submit"><span>Найти тур</span><i></i><u></u></a>
+          <a onclick=" $(this).closest('form').submit(); return false;" href="#" class="b-popup_content_form_submit"><span>Найти тур</span><i></i><u></u></a>
         </div>
-        <input type="hidden" name="before" id="date-before">
-        <input type="hidden" name="after" id="date-after">
-        <input type="hidden" name="textDate" id="date-text">
+        <input type="hidden" name="before" id="date-before-popup">
+        <input type="hidden" name="after" id="date-after-popup">
+        <input type="hidden" name="textDate" id="date-text-popup">
         <%@default_params.each do |key,val|%>
           <input type="hidden" name="<%=key%>" value="<%=val%>">
         <%end%>
@@ -128,3 +128,138 @@
   </div>
 </div>
 <%end%>
+
+<div class="b-search" style="display: none;" id="search-block">
+  <div class="b-search_form">
+    <form class="b-search_form_set" action="" method="post" id="search-form">
+      <span class="b-formfield b-popup_content_form_from">
+        <span class="b-formfield_select">
+          <select name="cityId">
+            <%City.all.each do |c|%>
+              <option value="<%=c.id%>"><%=c.name%></option>
+            <%end%>
+          </select>
+          <span class="b-formfield_select_content"></span>
+          <span class="b-formfield_select_icon"><i></i></span>
+        </span>
+      </span>
+      <i class="b-popup_content_form_direction"></i>
+      <span class="b-formfield b-popup_content_form_to">
+        <span class="b-formfield_select">
+          <select name="countryId">
+            <%Country.all.each do |c|%>
+              <option value="<%=c.id%>"><%=c.name%></option>
+            <%end%>
+          </select>
+          <span class="b-formfield_select_content"></span>
+          <span class="b-formfield_select_icon"><i></i></span>
+        </span>
+      </span>
+      
+      <label>вылет <span class="b-formfield b-popup_content_form_date_field"><input class="b-popup_content_form_date"  id="date-text" type="text" value="" name="textDate" /></span></label>
+      <input type="hidden" name="before" id="date-before" value="">
+        <input type="hidden" name="after" id="date-after"  value="">
+      <label>на <span class="b-formfield b-popup_content_form_days_field"><input class="b-popup_content_form_days js-field_count" type="text" maxlength="2" name="nightsMin" value="" id="nightsMin" data-numbering-to="#fly-to-days" data-words='["день","дня","дней"]'/></span> <span id="fly-to-days">дней</span></label>
+      <input type="hidden" name="nightsMax" value="" id="nightsMax">
+      <label><span class="b-formfield"><input class="b-popup_content_form_adult js-field_count" type="text" maxlength="1" value="" name="adult" data-numbering-to="#fly-to-adult" data-words='["взрослый","взрослых","взрослых"]'/></span> <span id="fly-to-adult">взрослых</span></label>
+      <label><span class="b-formfield"><input class="b-popup_content_form_kid js-field_count" type="text" maxlength="1" value="" name="child" data-numbering-to="#fly-to-childs" data-words='["ребенок","ребенка","детей"]'/></span> <span id="fly-to-childs">детей</span></label>
+      
+    <div class="b-search_form_filters">
+      <dl class="b-search_form_filters_item">
+        <dt>Стоимость</dt>
+        <dd>
+          <span class="b-formfield b-search_form_filters_price b-search_form_filters_price_start"><input type="text" value="10000" name="priceMin" id="filter-price-start"/></span>
+          &mdash;
+          <span class="b-formfield b-search_form_filters_price b-search_form_filters_price_end"><input type="text" value="100000" name="priceMax" id="filter-price-end"/></span>
+          
+          <div class="b-search_form_filters_price_range"></div>
+        </dd>
+      </dl>
+      <dl class="b-search_form_filters_item">
+        <dt>Звездность</dt>
+        <dd class="b-search_form_filters_item_stars">
+          <span class="b-search_form_filters_stars b-search_form_filters_stars_start" value="1" id="filter-stars-from"><i class="b-search_form_filters_stars_1"></i></span>
+          &mdash;
+          <span class="b-search_form_filters_stars b-search_form_filters_stars_end" value="5" id="filter-stars-to"><i class="b-search_form_filters_stars_5"></i></span>
+        </dd>
+      </dl>
+      <dl class="b-search_form_filters_item">
+        <dt>Тип питания</dt>
+        <dd>
+          <span class="b-formfield b-search_form_filters_food">
+            <span class="b-formfield_select">
+              <select id="filter-food" name="rAndBId">
+                <%TezTour.rAndBs.each do |rb|%>
+                <option value="<%=rb.rAndBId%>"><%=rb.name%></option>
+                <%end%>
+              </select>
+              <span class="b-formfield_select_content"></span>
+              <span class="b-formfield_select_icon"><i></i></span>
+            </span>
+          </span>
+        </dd>
+      </dl>
+      <div class="clear"></div>
+    </div>
+      <%@default_params.each do |key,val|%>
+        <input type="hidden" name="<%=key%>" value="<%=val%>">
+      <%end%>
+      <div class="b-search_form_set_buttons">
+        <a onclick="$(this).closest('form').submit();return false;" href="#" class="b-search_form_set_submit g-gradient"><span>Найти туры</span><i></i><u></u></a>
+        <a href="#" class="b-search_form_set_cancel">Отменить</a>
+      </div>
+    </form>
+    
+    <div class="b-search_form_direction">
+      <div class="b-search_form_direction_item b-search_form_direction_item_flight">
+        <i class="b-search_form_direction_item_icon"></i>
+      </div>
+      <div class="b-search_form_direction_item b-search_form_direction_item_days">
+        <i class="b-search_form_direction_item_icon"></i>
+      </div>
+      <div class="b-search_form_direction_item b-search_form_direction_item_persons">
+        <i class="b-search_form_direction_item_icon"></i>
+      </div>
+      <div class="b-search_form_direction_edit">
+        <a href="#" class="b-search_form_direction_edit_button">изменить</a>
+      </div>
+    </div>
+  </div>
+  <div class="b-search_result">
+    <div class="b-search_result_header">
+      <div class="b-search_result_col b-search_result_col1">Отель</div>
+      <div class="b-search_result_col b-search_result_col2">Курорт</div>
+      <div class="b-search_result_col b-search_result_col3">Дата заезда</div>
+      <div class="b-search_result_col b-search_result_col4">Тип питания</div>
+      <div class="b-search_result_col b-search_result_col5">Стоимость</div>
+    </div>
+    
+    <div class="b-search_result_list" id="results">
+    </div>
+    
+    <div class="b-search_result_item_form">
+      <div class="b-search_result_item_form_top"><a></a><b></b><i></i><u></u><s></s></div>
+      <form class="b-search_result_item_form_content b-card" id="reserve-form">
+        <div class="b-card_header" id="form-tourists-data">Информация о туристах</div>
+        <div class="b-card_header">Билеты на самолет</div>
+        <div class="b-card_flight_data">
+          <div class="b-card_flight_data_block b-card_flight_data_first">
+            <span class="b-card_flight_data_caption">туда</span>
+          </div>
+          <div class="b-card_flight_data_block b-card_flight_data_second">
+            <span class="b-card_flight_data_caption">обратно</span>
+            
+          </div>
+        </div>
+        <div class="b-card_summary">
+          <a onclick="$(this).closest('form').submit();return false;" href="#" class="b-card_summary_submit g-gradient"><span>Забронировать тур</span><i></i><u></u></a>
+          <div class="b-card_summary_notice">После отправки данных наш менеджер проверит актуальность предложения, забронирует тур и свяжется с вами. Оплатить вы сможете наличными у нас в офисе или курьеру.</div>
+          <div class="b-card_summary_credit">Скоро можно будет оплатить кредитной картой<i class="b-card_summary_credit_icon"></i></div>
+        </div>
+      </form>
+      <div class="b-search_result_item_form_bottom"><a></a><b></b><i></i><u></u><s></s></div>
+    </div>
+    
+    <a href="#" class="b-search_result_more" id="more">Показать еще 10 туров</a>
+  </div>
+</div>
