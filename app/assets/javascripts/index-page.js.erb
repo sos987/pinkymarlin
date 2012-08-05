@@ -436,6 +436,7 @@ $(function(){
 			var input = form.find('[name="'+v.name+'"]');
 			if (input.is("input")) {
 				input.val(v.value);
+				if (input.is("[data-numbering-to]")) input.change();
 			}
 			else if (input.is("select")) {
 				input.find('option[value="'+v.value+'"]').attr('selected','selected').change();

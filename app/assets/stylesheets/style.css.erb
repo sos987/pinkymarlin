@@ -129,7 +129,7 @@ p {margin-bottom: 15px;}
   .b-contactphone_prefix {font-size: 12px;margin: 0 15px 0 0;}
 
 
-.b-header {color: #ed056a;text-align: center;position: relative;padding: 25px 90px 40px 205px;}
+.b-header {color: #ed056a;text-align: center;position: relative;padding: 25px 0px 40px 205px;}
 
 .b-logo {position: absolute;top: 0;left: 8px;display: block;width: 160px;height: 89px;background: url(<%= asset_path 'sprite.png' %>) no-repeat 0 0;text-decoration: none;}
   .b-logo_alt {visibility: hidden;}
@@ -378,7 +378,7 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="number"]
       .b-search_form_direction_edit {position: absolute;right: 10px;top: 10px;font-size: 12px;line-height: 12px;}
         .b-search_form_direction_edit_button {text-decoration: none;color: #29364a;display: block;padding: 3px 10px 7px;border: 1px solid;}
 
-    .b-search_form_set {font-size: 15px;display: none;background: rgba(237, 30, 121, .2);padding: 12px 10px 13px;overflow: hidden;position: relative;}
+    .b-search_form_set {font-size: 15px;display: none;background: rgba(237, 30, 121, .2);padding: 12px 10px 13px;overflow: visible;position: relative;}
       .ie7 .b-search_form_set, .ie8 .b-search_form_set {background: url(<%= asset_path 'bg/ed1e79-0.20.png' %>);padding-top: 5px;padding-bottom: 23px;}
       
       .b-popup_content_form_date {width: 110px;}
@@ -559,7 +559,7 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="number"]
     .b-card_personal_data_caption {position: absolute;font-size: 15px;top: 9px;left: 13px;display: none;cursor: text;color: #ABB7C4}
       .ie7 .b-card_personal_data_caption {top: 13px;zoom: 1;z-index: 2;}
       .ie8 .b-card_personal_data_caption {top: 6px;zoom: 1;z-index: 2;}
-    .b-card_personal_data_notice {position: absolute;font-size: 11px;font-style: italic;top: 35px;left: 13px;}
+    .b-card_personal_data_notice {position: absolute;font-size: 11px;font-style: italic;top: 35px;left: 13px; line-height: 18px;}
       .ie7 .b-card_personal_data_notice {top: 37px;}
     .b-card_personal_data_value {display: none;}
       .ie7 .b-card_personal_data_field, .ie8 .b-card_personal_data_field {z-index: 1;}
@@ -589,7 +589,7 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="number"]
   .b-card_flight_data {overflow: hidden;}
     .b-card_flight_data_caption {position: absolute;left: 0;top: 12px;}
     .b-card_flight_data_item {float: left;display: block;padding: 21px 0 40px;margin: 0 1px 0 0;cursor: pointer;position: relative;}
-      .b-card_flight_data_item_disabled {opacity: .4;cursor: default;}
+      .b-card_flight_data_item_disabled { filter: alpha(opacity=40);opacity: .4;cursor: default;}
       .ie7 .b-card_flight_data_item_disabled, .ie8 .b-card_flight_data_item_disabled {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=40);zoom: 1;}
         .ie7 .b-card_flight_data_item_disabled .b-card_flight_data_notice {zoom: 1;} 
       .b-card_flight_data_item_selected .b-card_flight_data_value {color: #ed1e79;}
