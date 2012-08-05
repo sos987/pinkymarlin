@@ -328,7 +328,6 @@ $(function(){
 
 	var applyTourInfo = function(tour){
 		$(".b-form-hidden-fields").remove();
-		console.log(tour);
 		var html = '<div style="" class="b-form-hidden-fields">';
 		var keys = {
 			date: 1,
@@ -418,6 +417,7 @@ $(function(){
 		$.each(accommodations,function(i,e){
 			if (e.children == searchParams.child && e.adult == searchParams.adult) {
 				searchParams.accomodationId = e.accommodationId;
+				formCreator.count = parseInt(e.children) + parseInt(e.adult);
 			}
 		});
 		searcher.setParams(searchParams);
@@ -434,7 +434,6 @@ $(function(){
 		var form = $("#search-form");
 		$.each(values,function(i,v){
 			var input = form.find('[name="'+v.name+'"]');
-			console.log(input);
 			if (input.is("input")) {
 				input.val(v.value);
 			}
@@ -446,7 +445,6 @@ $(function(){
 		$(".b-search_form_direction_item_days").prepend(word($("#nightsMinPopup").val(),['день','дня','дней']));
 		var count = parseInt($("#childs-popup").val())+parseInt($("#adults-popup").val());
 		$(".b-search_form_direction_item_persons").prepend(word(count,['турист','туриста','туристов	']));
-		formCreator.count = count;
 		form.submit();
 		return false;
 	});
