@@ -324,11 +324,11 @@ $(document).ready(function () {
 	
 	//selects
 	$('.b-popup_content_form_from select').change(function () {
-		$('.b-calendar_week_day_flight_from').text($(this).val());
+		$('.b-calendar_week_day_flight_from').text($(this).find('option:selected').text());
 	});
 
 	$('.b-popup_content_form_to select').change(function () {
-		$('.b-calendar_week_day_flight_to').text($(this).val());
+		$('.b-calendar_week_day_flight_to').text($(this).find('option:selected').text());
 	});
 
 

@@ -124,6 +124,8 @@ var calendar = (function(){
 			$("#date-text-popup").val(new Date(date).format('d mmmmm'));
 			$("#date-before-popup").val(new Date(date+3*24*3600*1000).format('dd.mm.yyyy'));
 			$("#date-after-popup").val(new Date(date-3*24*3600*1000).format('dd.mm.yyyy'));
+			$('.b-popup_content_form_from select').change();
+			$('.b-popup_content_form_to select').change();
 		});
 	}
 
