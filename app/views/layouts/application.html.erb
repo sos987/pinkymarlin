@@ -24,7 +24,17 @@
 <!--[if IE 9 ]>   <body class="ie9"><![endif]-->
 <!--[if gt IE 9]> <body>            <![endif]-->
 <!--[if !IE]><!--><body>        <!--<![endif]-->
-  <div class="l-wrapper">
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+  		var js, fjs = d.getElementsByTagName(s)[0];
+  		if (d.getElementById(id)) return;
+  		js = d.createElement(s); js.id = id;
+  		js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+  		fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>  
+	<div class="l-wrapper">
     <div class="l-container">
       
       <div class="l-content">
@@ -41,9 +51,9 @@
           <ul class="b-mainmenu">
             <li class="b-mainmenu_item b-mainmenu_item_selected">Главная<i class="b-mainmenu_item_selected_tail"></i></li>
             <li class="b-mainmenu_item"><a href="#1">Туристам</a></li>
-            <li class="b-mainmenu_item"><a href="#2">О компании</a></li>
-            <li class="b-mainmenu_item"><a href="#3">Блог</a></li>
-            <li class="b-mainmenu_item"><a href="#4">Контактная информация</a></li>
+            <li class="b-mainmenu_item"><a href="#2">О проекте</a></li>
+            <li class="b-mainmenu_item"><a href="http://rozovymarlin.ru/category/blog/" target="_blank">Блог</a></li>
+						<li class="b-mainmenu item"><div class="fb-like" data-href="https://www.facebook.com/rozovymarlin" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false" data-font="segoe ui" style="float:left;position:relative;margin:5px 0 0 10px;"></div></li>
           </ul>
           <div class="b-contactphone">
             <span class="b-contactphone_prefix">телефон</span> (495) 971-58-18
