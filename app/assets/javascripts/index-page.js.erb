@@ -43,11 +43,12 @@ var Searcher = function(params){
 	};
 
 	this.loadTours = function(callback){
-		if (params.accomodationId == 'noAccomodation') {
+		if (params.accommodationId == 'noAccomodation') {
 			noTours();
 			if (typeof callback == 'function') callback();
 			return false;
 		}
+		params.rAndBBetter = params.rAndBId == '';
 		$.ajax({
 			dataType: 'jsonp',
 			url: 'http://search.teztour.com/toursearch/getResult',
@@ -416,7 +417,7 @@ $(function(){
 		});
 		$.each(accommodations,function(i,e){
 			if (e.children == searchParams.child && e.adult == searchParams.adult) {
-				searchParams.accomodationId = e.accommodationId;
+				searchParams.accommodationId = e.accommodationId;
 				formCreator.count = parseInt(e.children) + parseInt(e.adult);
 			}
 		});

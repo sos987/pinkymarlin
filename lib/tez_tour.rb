@@ -23,8 +23,10 @@ module TezTour
 	def default_params
 		{
 		  	:currency => 8390,
+		  	:hotelClassBetter => false,
 		  	:noTicketsFrom => false,
-		  	:noTicketsTo => false
+		  	:noTicketsTo => false,
+		  	:hotelInStop => false
 	    }
 	end
 
