@@ -49,38 +49,47 @@ var Searcher = function(params){
 			return false;
 		}
 		params.rAndBBetter = params.rAndBId == '';
-		$.ajax({
-			dataType: 'jsonp',
-			url: 'http://search.teztour.com/toursearch/getResult',
-			type: 'get',
-			data: params,
-			timeout: 30*1000,
-			success: function(data){
-				if (!data.data || data.data.length == 0) {
-					no_new_tours = true;
-					if ($(".b-search_result_item").length == 0) {
-						noTours();
+		(function(price){
+			$.ajax({
+				dataType: 'jsonp',
+				url: 'http://search.teztour.com/toursearch/getResult',
+				type: 'get',
+				data: params,
+				timeout: 30*1000,
+				success: function(data){
+					if (!data.data || data.data.length == 0) {
+						no_new_tours = true;
+						if ($(".b-search_result_item").length == 0) {
+							noTours();
+						}
+					}	
+					else {
+						$.each(data.data,function(i, tour){
+							var p = parseInt(tour[16],10);
+							if (p < price.max && p > price.min) {
+								//тез тур делаем ± примерно 10 тыщ к искомой цене, удаляем неподходящие предложения
+								$(tourTemplate(tour)).appendTo("#results").data('tour',tour).hide();
+							}
+						});
 					}
-				}	
-				else {
-					var foods = $("#filter-food").html();
-					$.each(data.data,function(i, tour){
-						if (foods.indexOf(tour[14]) == -1) foods += '<option value="'+tour[14]+'">'+tour[14]+'</option>';
-						$(tourTemplate(tour)).appendTo("#results").data('tour',tour).hide();
-					});
-					$("#filter-food").html(foods).change();
+					if (typeof callback == 'function') callback();
+				},
+				error: function(){
+					$("#results").html("<div class='b-search_result_no_results'>Произошла неизвестная ошибка. Попробуйте повторить еще раз.</div>");
 				}
-				if (typeof callback == 'function') callback();
-			},
-			error: function(){
-				$("#results").html("<div class='b-search_result_no_results'>Произошла неизвестная ошибка. Попробуйте повторить еще раз.</div>");
-			}
-		});	
+			});	
+		})({
+			min: parseInt(params.priceMin,10),
+			max: parseInt(params.priceMax,10)
+		});
 	}
 
 	this.tryLoadMore = function(){
-		params.priceMin = parseInt($(".b-search_result_item_price:last").text())+1;
-		this.loadTours();
+		params.priceMin = parseInt($(".b-search_result_item_price:last").text(), 10)+1;
+		this.loadTours(function(){
+			more = parseInt($(".b-search_result_item:hidden").length);
+			updateMoreButton();
+		});
 	}
 
 	this.setParams = function(p){
