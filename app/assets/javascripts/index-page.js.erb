@@ -25,11 +25,11 @@ var Searcher = function(params){
 		if (hotel == null) {
 			hotel = ['',tour[6],3]
 		}
-		hotel[2] = parseInt(hotel[2]);
+		hotel[2] = parseInt(hotel[2], 10);
 		var date = tour[1].split('.');
 		date = new Date(date[2],date[1]-1,date[0]);
 		date = new Date(date).format('d mmmmm yyyy')
-		return '<div class="b-search_result_item" data-stars="'+hotel[2]+'" data-price="'+parseInt(tour[16])+'" data-food="'+tour[14]+'">'+
+		return '<div class="b-search_result_item" data-stars="'+hotel[2]+'" data-price="'+parseInt(tour[16], 10)+'" data-food="'+tour[14]+'">'+
 					'<div class="b-search_result_col b-search_result_col1 b-search_result_item_hotel">'+
 						'<span class="b-search_result_item_hotel_stars"><i class="b-search_result_item_hotel_stars'+hotel[2]+'"></i></span>'+
 						'<span class="b-search_result_item_hotel_name">'+hotel[1]+'</span>'+
@@ -87,7 +87,7 @@ var Searcher = function(params){
 	this.tryLoadMore = function(){
 		params.priceMin = parseInt($(".b-search_result_item_price:last").text(), 10)+1;
 		this.loadTours(function(){
-			more = parseInt($(".b-search_result_item:hidden").length);
+			more = parseInt($(".b-search_result_item:hidden").length, 10);
 			updateMoreButton();
 		});
 	}
@@ -102,7 +102,7 @@ var Searcher = function(params){
 				$(this).css('height','auto');
 			});
 		});
-		more = parseInt($(".b-search_result_item:hidden").length);
+		more = parseInt($(".b-search_result_item:hidden").length, 10);
 		updateMoreButton();
 		if (more < 10 && !no_new_tours) {
 			this.tryLoadMore();
@@ -129,7 +129,7 @@ var calendar = (function(){
 			$(this).addClass('b-calendar_week_day_selected').append($caption);
 			
 			$('.b-popup').fadeIn(333);
-			var date = parseInt($(this).attr('timestamp'));
+			var date = parseInt($(this).attr('timestamp'), 10);
 			$('.b-popup_content_date').text(new Date(date).format('d mmmmm yyyy'));
 			$("#date-text-popup").val(new Date(date).format('d mmmmm'));
 			$("#date-before-popup").val(new Date(date+3*24*3600*1000).format('dd.mm.yyyy'));
@@ -168,8 +168,8 @@ var calendar = (function(){
 		var before = new Date(date.getTime());
 		before.setFullYear(before.getFullYear() + 1);
 		
-		if (parseInt(date.format('ddddd'))) {
-			date.setDate(1 - parseInt(date.format('ddddd')));
+		if (parseInt(date.format('ddddd'), 10)) {
+			date.setDate(1 - parseInt(date.format('ddddd'), 10));
 		}
 		
 		var i = 0;
@@ -194,7 +194,7 @@ var calendar = (function(){
 				$(day).text(date.format('d'));
 				$(day).attr('timestamp', date.getTime());
 				
-				if (parseInt(date.format('d')) == 1) {
+				if (parseInt(date.format('d'), 10) == 1) {
 					$(week).addClass('js-week_' + date.format('mm'));
 				}
 				
@@ -213,7 +213,7 @@ var calendar = (function(){
 		$('.b-calendar_months_item').click(function () {
 			var month = $(this).attr('month');
 			var $week = $('.js-week_' + month);
-			var offset = parseInt($week.height()) * parseInt($week.attr('week'));
+			var offset = parseInt($week.height(), 10) * parseInt($week.attr('week'), 10);
 			
 			$('.b-i-i-calendar').animate({'top': '-' + offset + 'px'}, 500, 'easeInOutExpo', function () {
 				setMonthActiveDays(month);
@@ -402,7 +402,7 @@ $(function(){
 
 	$('.b-about_gallery').find('a').click(function () {
 		var fotorama = $('.b-about_fotorama').fotorama();
-		fotorama.trigger('showimg', [parseInt($(this).attr('rel')), 333]);
+		fotorama.trigger('showimg', [parseInt($(this).attr('rel'), 10), 333]);
 		return false;
 	});
 
@@ -427,7 +427,7 @@ $(function(){
 		$.each(accommodations,function(i,e){
 			if (e.children == searchParams.child && e.adult == searchParams.adult) {
 				searchParams.accommodationId = e.accommodationId;
-				formCreator.count = parseInt(e.children) + parseInt(e.adult);
+				formCreator.count = parseInt(e.children, 10) + parseInt(e.adult, 10);
 			}
 		});
 		searcher.setParams(searchParams);
@@ -454,7 +454,7 @@ $(function(){
 		});
 		$(".b-search_form_direction_item_flight").prepend($("#popup-city option:selected").text()+' — '+$("#popup-country option:selected").text()+", "+$("#date-text-popup").val());
 		$(".b-search_form_direction_item_days").prepend(word($("#nightsMinPopup").val(),['день','дня','дней']));
-		var count = parseInt($("#childs-popup").val())+parseInt($("#adults-popup").val());
+		var count = parseInt($("#childs-popup").val(), 10)+parseInt($("#adults-popup").val(), 10);
 		$(".b-search_form_direction_item_persons").prepend(word(count,['турист','туриста','туристов	']));
 		form.submit();
 		return false;
