@@ -134,7 +134,7 @@
     <form class="b-search_form_set" action="" method="post" id="search-form">
       <span class="b-formfield b-popup_content_form_from">
         <span class="b-formfield_select">
-          <select name="cityId">
+          <select name="cityId" id="city">
             <%City.all.each do |c|%>
               <option value="<%=c.id%>"><%=c.name%></option>
             <%end%>
@@ -146,7 +146,7 @@
       <i class="b-popup_content_form_direction"></i>
       <span class="b-formfield b-popup_content_form_to">
         <span class="b-formfield_select">
-          <select name="countryId">
+          <select name="countryId" id="country">
             <%Country.all.each do |c|%>
               <option value="<%=c.id%>"><%=c.name%></option>
             <%end%>

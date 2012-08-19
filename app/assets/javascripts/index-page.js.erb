@@ -1,3 +1,44 @@
+var MarlinSearcherRouter = Backbone.Router.extend({
+  initialize: function(){
+  	this.route("","index");
+  	this.route(/^search\/(.*)$/, "search");
+  },
+
+  index: function() {
+  	$('.b-calendar, .b-special, .l-i-content h2, .b-about_content, #search-block').fadeIn('slow');
+	$('.b-loader').fadeOut('slow');
+  },
+
+  search: function(query) {
+  	var params = query.split('&');
+  	var values = {};
+  	for (var i=0; i< params.length; i++) {
+  		var param = params[i].split(':');
+  		values[param[0]] = param[1];
+  	}
+	
+	var form = $("#search-form");
+	for (var i in values) {
+		var v = values[i];
+		var input = form.find('[name="'+i+'"]');
+		if (input.is("input")) {
+			input.val(v);
+			if (input.is("[data-numbering-to]")) input.change();
+		}
+		else if (input.is("select")) {
+			input.find('option[value="'+v+'"]').attr('selected','selected').change();
+		}
+	}
+	$(".b-search_form_direction_item_flight").prepend($("#city option:selected").text()+' — '+$("#country option:selected").text()+", "+$("#date-text").val());
+	$(".b-search_form_direction_item_days").prepend(word(values.nightsMin,['день','дня','дней']));
+	var count = parseInt(values.child, 10)+parseInt(values.adult, 10);
+	$(".b-search_form_direction_item_persons").prepend(word(count,['турист','туриста','туристов	']));
+	form.submit();
+	return false;
+  }
+});
+
+
 var Searcher = function(params){	
 	var no_new_tours = false;
 	var self = this;
@@ -43,7 +84,7 @@ var Searcher = function(params){
 	};
 
 	this.loadTours = function(callback){
-		if (params.accommodationId == 'noAccomodation') {
+		if (params.accommodationId == 'noAccommodation') {
 			noTours();
 			if (typeof callback == 'function') callback();
 			return false;
@@ -349,7 +390,7 @@ $(function(){
 			region: 10,
 			food: 13,
 			food_full: 14,
-			accomodation: 15,
+			accommodation: 15,
 			price: 16
 		};
 		for (var key in keys) {
@@ -406,12 +447,14 @@ $(function(){
 		return false;
 	});
 
+	var app = new MarlinSearcherRouter();
+
 	var searcher = new Searcher();
 
 	$("#more").click(function(){
 		searcher.next();
 		return false;
-	})
+	});
 
 	$("#search-form").submit(function(){
 		$('.b-calendar, .b-special, .b-popup, .l-i-content h2, .b-about_content, #search-block').fadeOut('slow');
@@ -420,7 +463,7 @@ $(function(){
 		$(".b-search_result_item").remove();
 		$(".b-search_result_no_results").remove();
 		var params = $(this).serializeArray();
-		var searchParams = {accomodationId: 'noAccomodation'};
+		var searchParams = {accommodationId: 'noAccommodation'};
 		$.each(params,function(i,v){
 			searchParams[v.name] = v.value;
 		});
@@ -430,6 +473,12 @@ $(function(){
 				formCreator.count = parseInt(e.children, 10) + parseInt(e.adult, 10);
 			}
 		});
+		var urlParams = ['cityId','countryId','child','adult','priceMin','priceMax','after','before','nightsMin','nightsMax','textDate'];
+		var url = 'search/';
+		for (var i in urlParams) {
+			url+= urlParams[i]+':'+searchParams[urlParams[i]]+'&';
+		}
+		app.navigate(url, {trigger: false, replace: true});
 		searcher.setParams(searchParams);
 		searcher.loadTours(function(){
 			$("#search-block").fadeIn('slow');
@@ -588,4 +637,5 @@ $(function(){
 		},'json');
 		return false;
 	});
+	Backbone.history.start();
 });
