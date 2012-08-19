@@ -478,7 +478,7 @@ $(function(){
 		for (var i in urlParams) {
 			url+= urlParams[i]+':'+searchParams[urlParams[i]]+'&';
 		}
-		app.navigate(url, {trigger: false, replace: true});
+		app.navigate(url, {trigger: false});
 		searcher.setParams(searchParams);
 		searcher.loadTours(function(){
 			$("#search-block").fadeIn('slow');
