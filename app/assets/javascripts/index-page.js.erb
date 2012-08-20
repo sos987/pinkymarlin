@@ -5,7 +5,8 @@ var MarlinSearcherRouter = Backbone.Router.extend({
   },
 
   index: function() {
-  	$('.b-calendar, .b-special, .l-i-content h2, .b-about_content, #search-block').fadeIn('slow');
+  	$('.b-calendar, .b-special, .l-i-content h2, .b-about_content').fadeIn('slow');
+  	$("#search-block").fadeOut('slow');
 	$('.b-loader').fadeOut('slow');
   },
 
