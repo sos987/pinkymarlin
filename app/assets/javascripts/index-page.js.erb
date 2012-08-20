@@ -30,10 +30,6 @@ var MarlinSearcherRouter = Backbone.Router.extend({
 			input.find('option[value="'+v+'"]').attr('selected','selected').change();
 		}
 	}
-	$(".b-search_form_direction_item_flight").prepend($("#city option:selected").text()+' — '+$("#country option:selected").text()+", "+$("#date-text").val());
-	$(".b-search_form_direction_item_days").prepend(word(values.nightsMin,['день','дня','дней']));
-	var count = parseInt(values.child, 10)+parseInt(values.adult, 10);
-	$(".b-search_form_direction_item_persons").prepend(word(count,['турист','туриста','туристов	']));
 	form.submit();
 	return false;
   }
@@ -474,6 +470,11 @@ $(function(){
 				formCreator.count = parseInt(e.children, 10) + parseInt(e.adult, 10);
 			}
 		});
+		$(".b-search_form_direction_item_flight").html($("#city option:selected").text()+' — '+$("#country option:selected").text()+", "+$("#date-text").val()+'<i class="b-search_form_direction_item_icon"></i>');
+		$(".b-search_form_direction_item_days").html(word(searchParams.nightsMin,['день','дня','дней'])+'<i class="b-search_form_direction_item_icon"></i>');
+		var count = parseInt(searchParams.child, 10)+parseInt(searchParams.adult, 10);
+		$(".b-search_form_direction_item_persons").html(word(count,['турист','туриста','туристов	'])+'<i class="b-search_form_direction_item_icon"></i>');
+
 		var urlParams = ['cityId','countryId','child','adult','priceMin','priceMax','after','before','nightsMin','nightsMax','textDate'];
 		var url = 'search/';
 		for (var i in urlParams) {
@@ -502,10 +503,6 @@ $(function(){
 				input.find('option[value="'+v.value+'"]').attr('selected','selected').change();
 			}
 		});
-		$(".b-search_form_direction_item_flight").prepend($("#popup-city option:selected").text()+' — '+$("#popup-country option:selected").text()+", "+$("#date-text-popup").val());
-		$(".b-search_form_direction_item_days").prepend(word($("#nightsMinPopup").val(),['день','дня','дней']));
-		var count = parseInt($("#childs-popup").val(), 10)+parseInt($("#adults-popup").val(), 10);
-		$(".b-search_form_direction_item_persons").prepend(word(count,['турист','туриста','туристов	']));
 		form.submit();
 		return false;
 	});
