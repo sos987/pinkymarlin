@@ -1,6 +1,18 @@
 require 'resque'
 require 'resque/server'
 
+module Routes
+  class PublicControllerConstraint
+    def initialize
+      @lookup_context = ActionView::LookupContext.new(ApplicationController.view_paths)
+    end
+
+    def matches?(request)
+      @lookup_context.template_exists?([request.params[:section], request.params[:page]].compact.join('/').downcase)
+    end
+  end
+end
+
 MarlinSearcher::Application.routes.draw do
   mount Resque::Server.new, :at => "/resque-tasks"
   # The priority is based upon order of creation:
@@ -51,14 +63,19 @@ MarlinSearcher::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  
+
   root :to => 'home#index'
-  
+
   post 'search' => 'home#search', :as => :search
   post 'reserve' => 'home#reserve', :as => :reserve
 
   get 'login' => 'home#new_session', :as => :login
   post 'login' => 'home#create_session', :as => :create_session
+
+  controller :home, :path => '/' do
+    get '/:section(/:page)', :action => :custom, :as => :public,
+    :constraints => Routes::PublicControllerConstraint.new
+  end
 
   # See how all your routes lay out with "rake routes"
 

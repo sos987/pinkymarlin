@@ -1,7 +1,7 @@
 require 'tez_tour'
 require 'settings'
 
-class HomeController < ActionController::Base	
+class HomeController < ApplicationController
   include TezTour
 
   CODES = ['promocode','mymarlin']
@@ -22,6 +22,15 @@ class HomeController < ActionController::Base
     end
   end
 
+  def custom
+    updated_at = or_deploy_date(1.year.ago)
+
+    if stale? etag: updated_at, last_modified: updated_at
+      render :template => section_based_template_path, :layout => 'application'
+    end
+  end
+
+
 
   def new_session
     render :login, :layout => nil
@@ -36,7 +45,7 @@ class HomeController < ActionController::Base
     end
   end
 
-private 
+private
   def check_code
     unless CODES.include?(cookies[:code])
       redirect_to login_path
