@@ -17,7 +17,7 @@ var MarlinSearcherRouter = Backbone.Router.extend({
   		var param = params[i].split(':');
   		values[param[0]] = param[1];
   	}
-	
+
 	var form = $("#search-form");
 	for (var i in values) {
 		var v = values[i];
@@ -36,7 +36,7 @@ var MarlinSearcherRouter = Backbone.Router.extend({
 });
 
 
-var Searcher = function(params){	
+var Searcher = function(params){
 	var no_new_tours = false;
 	var self = this;
 	var more = 0;
@@ -52,10 +52,10 @@ var Searcher = function(params){
 		else {
 			$("#more").fadeIn();
 			var newValue = Math.min(more,10);
-			$("#more").text('Показать еще '+word(newValue,['тур','тура','туров']));	
+			$("#more").text('Показать еще '+word(newValue,['тур','тура','туров']));
 		}
 	}
-	
+
 	//Template for tour
 	var tourTemplate = function(tour) {
 		//one tour is array. See http://xml.teztour.com/XML_JSON_TS.html
@@ -90,7 +90,7 @@ var Searcher = function(params){
 		(function(price){
 			$.ajax({
 				dataType: 'jsonp',
-				url: 'http://search.teztour.com/toursearch/getResult',
+				url: 'http://search.tez-tour.com/toursearch/getResult',
 				type: 'get',
 				data: params,
 				timeout: 30*1000,
@@ -100,7 +100,7 @@ var Searcher = function(params){
 						if ($(".b-search_result_item").length == 0) {
 							noTours();
 						}
-					}	
+					}
 					else {
 						$.each(data.data,function(i, tour){
 							var p = parseInt(tour[16],10);
@@ -115,7 +115,7 @@ var Searcher = function(params){
 				error: function(){
 					$("#results").html("<div class='b-search_result_no_results'>Произошла неизвестная ошибка. Попробуйте повторить еще раз.</div>");
 				}
-			});	
+			});
 		})({
 			min: parseInt(params.priceMin,10),
 			max: parseInt(params.priceMax,10)
@@ -153,9 +153,9 @@ var calendar = (function(){
 	var setMonthActiveDays = function(month) {
 		$('.b-calendar_week_day').removeClass('b-calendar_week_day_other');
 		$('.b-i-calendar').find('.b-calendar_week_day:not(.js-month_' + month + ', .b-calendar_week_day_inactive)').addClass('b-calendar_week_day_other');
-		
+
 		$('.b-calendar_week_day').unbind();
-		
+
 		$('.b-calendar_week:not(.b-calendar_week_header) .b-calendar_week_day:not(.b-calendar_week_day_inactive)').mouseenter(function () {
 			var $caption = $('.b-calendar').find('.b-calendar_week_day_caption');
 			$(this).addClass('b-calendar_week_day_hover').append($caption);
@@ -165,7 +165,7 @@ var calendar = (function(){
 			var $caption = $('.b-calendar').find('.b-calendar_week_day_flight');
 			$('.b-calendar_week_day_selected').removeClass('b-calendar_week_day_selected');
 			$(this).addClass('b-calendar_week_day_selected').append($caption);
-			
+
 			$('.b-popup').fadeIn(333);
 			var date = parseInt($(this).attr('timestamp'), 10);
 			$('.b-popup_content_date').text(new Date(date).format('d mmmmm yyyy'));
@@ -195,21 +195,21 @@ var calendar = (function(){
 			$('.b-calendar_months').append(month);
 			date.setMonth(date.getMonth() + 1);
 		}
-		
+
 		var date = new Date();
 		date.setHours(0);
 		date.setMinutes(0);
 		date.setSeconds(0);
 		var yesterday = new Date(date.getTime() - 1000 * 3600 * 24);
-		
+
 		date.setDate(1);
 		var before = new Date(date.getTime());
 		before.setFullYear(before.getFullYear() + 1);
-		
+
 		if (parseInt(date.format('ddddd'), 10)) {
 			date.setDate(1 - parseInt(date.format('ddddd'), 10));
 		}
-		
+
 		var i = 0;
 		while (date.getTime() < before.getTime()) {
 			var week = document.createElement('UL');
@@ -231,32 +231,32 @@ var calendar = (function(){
 				$(day).addClass('js-day_' + date.format('dd'));
 				$(day).text(date.format('d'));
 				$(day).attr('timestamp', date.getTime());
-				
+
 				if (parseInt(date.format('d'), 10) == 1) {
 					$(week).addClass('js-week_' + date.format('mm'));
 				}
-				
+
 				if (date.getTime() <= yesterday.getTime()) {
 					$(day).addClass('b-calendar_week_day_inactive');
 				}
-				
+
 				$(week).append(day);
 				date.setDate(date.getDate() + 1);
 			}
 			$('.b-i-i-calendar').append(week);
 		}
-		
+
 		setMonthActiveDays(new Date().format('mm'));
-		
+
 		$('.b-calendar_months_item').click(function () {
 			var month = $(this).attr('month');
 			var $week = $('.js-week_' + month);
 			var offset = parseInt($week.height(), 10) * parseInt($week.attr('week'), 10);
-			
+
 			$('.b-i-i-calendar').animate({'top': '-' + offset + 'px'}, 500, 'easeInOutExpo', function () {
 				setMonthActiveDays(month);
 			});
-			
+
 			$('.b-calendar_months_item_selected').removeClass('b-calendar_months_item_selected');
 			$(this).addClass('b-calendar_months_item_selected');
 			return false;
@@ -516,7 +516,7 @@ $(function(){
 		$(this).closest('.b-card_personal_data_sex').find('.b-card_personal_data_item_selected').removeClass('b-card_personal_data_item_selected');
 		$(this).addClass('b-card_personal_data_item_selected');
 	});
-	
+
 	/* radio buttons flight types*/
 	$('.b-card_flight_data_item', '.b-card_flight_data_block').live('click',function () {
 		if ($(this).hasClass('b-card_flight_data_item_selected') || $(this).hasClass('b-card_flight_data_item_disabled')) {
@@ -563,7 +563,7 @@ $(function(){
 				$('body').stop().animate({scrollTop: $(obj).offset().top}, 1666, 'easeInOutExpo');
 			});
 		}
-		
+
 		if ($(obj).hasClass('b-search_result_item_selected')) {
 			$(form).slideUp(333, function () {
 				$(obj).removeClass('b-search_result_item_selected');
@@ -578,7 +578,7 @@ $(function(){
 			} else {
 				$(obj).append(form).addClass('b-search_result_item_selected');
 				showForm();
-				
+
 			}
 		}
 	});
@@ -592,14 +592,14 @@ $(function(){
 		var errors = [];
 		$('.b-card_personal_data_name input',this).each(function(i,e){
 			if (!(/^[\sa-zA-Z]+$/.test($.trim($(e).val())))) {
-				valid = false; 
+				valid = false;
 				$(e).closest('.b-card_personal_data_name').addClass('invalid');
 			}
 			else $(e).closest('.b-card_personal_data_name').removeClass('invalid');
 		});
 		$('.b-card_personal_data_passport input',this).each(function(i,e){
 			if (!(/^[\d\s№#]+$/.test($.trim($(e).val())))) {
-				valid = false; 
+				valid = false;
 				$(e).closest('.b-card_personal_data_passport').addClass('invalid');
 			}
 			else $(e).closest('.b-card_personal_data_passport').removeClass('invalid');
@@ -615,7 +615,7 @@ $(function(){
 		}
 		$(".b-card_personal_data_email input[value!='']", this).each(function(i, e){
 			if (!(/^.+@.+\..+$/.test($.trim($(e).val())))) {
-				valid = false; 
+				valid = false;
 				$(e).closest('.b-card_personal_data_email').addClass('invalid');
 			}
 			else $(e).closest('.b-card_personal_data_email').removeClass('invalid');
