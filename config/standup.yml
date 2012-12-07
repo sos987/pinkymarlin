@@ -23,8 +23,8 @@ shell:
 
 webapp:
   name: marlinshop
-  github_user: KELiON
-  github_repo: KELiON/pinky-marlin
+  github_user: sos987
+  github_repo: sos987/pinkymarlin
 
 # Nodes and their script params
 nodes:
